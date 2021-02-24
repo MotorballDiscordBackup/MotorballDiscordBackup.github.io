@@ -1,0 +1,4328 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Motorball - 日本語-chat</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+
+    <style>
+        /* General */
+
+@font-face {
+    font-family: Whitney;
+    src: url(https://cdn.jsdelivr.net/gh/Tyrrrz/DiscordFonts@master/whitney-300.woff);
+    font-weight: 300;
+}
+
+@font-face {
+    font-family: Whitney;
+    src: url(https://cdn.jsdelivr.net/gh/Tyrrrz/DiscordFonts@master/whitney-400.woff);
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: Whitney;
+    src: url(https://cdn.jsdelivr.net/gh/Tyrrrz/DiscordFonts@master/whitney-500.woff);
+    font-weight: 500;
+}
+
+@font-face {
+    font-family: Whitney;
+    src: url(https://cdn.jsdelivr.net/gh/Tyrrrz/DiscordFonts@master/whitney-600.woff);
+    font-weight: 600;
+}
+
+@font-face {
+    font-family: Whitney;
+    src: url(https://cdn.jsdelivr.net/gh/Tyrrrz/DiscordFonts@master/whitney-700.woff);
+    font-weight: 700;
+}
+
+body {
+    font-family: "Whitney", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 17px;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+img {
+    object-fit: contain;
+}
+
+.markdown {
+    max-width: 100%;
+    line-height: 1.3;
+    overflow-wrap: break-word;
+}
+
+.preserve-whitespace {
+    white-space: pre-wrap;
+}
+
+.spoiler {
+    /* width: fit-content; */
+    display: inline-block;
+    /* This is more consistent across browsers, the old attribute worked well under Chrome but not FireFox. */
+}
+
+.spoiler--hidden {
+    cursor: pointer;
+}
+
+.spoiler-text {
+    border-radius: 3px;
+}
+
+.spoiler--hidden .spoiler-text {
+    color: rgba(0, 0, 0, 0);
+}
+
+.spoiler--hidden .spoiler-text::selection {
+    color: rgba(0, 0, 0, 0);
+}
+
+.spoiler-image {
+    position: relative;
+    overflow: hidden;
+    border-radius: 3px;
+}
+
+.spoiler--hidden .spoiler-image {
+    box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.1);
+}
+
+.spoiler--hidden .spoiler-image * {
+    filter: blur(44px);
+}
+
+.spoiler--hidden .spoiler-image:after {
+    content: "SPOILER";
+    color: #dcddde;
+    background-color: rgba(0, 0, 0, 0.6);
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-weight: 600;
+    padding: 100%;
+    border-radius: 20px;
+    letter-spacing: 0.05em;
+    font-size: 0.9em;
+}
+
+.spoiler--hidden:hover .spoiler-image:after {
+    color: #fff;
+    background-color: rgba(0, 0, 0, 0.9);
+}
+
+.quote {
+    margin: 0.1em 0;
+    padding-left: 0.6em;
+    border-left: 4px solid;
+    border-radius: 3px;
+}
+
+.pre {
+    font-family: "Consolas", "Courier New", Courier, monospace;
+}
+
+.pre--multiline {
+    margin-top: 0.25em;
+    padding: 0.5em;
+    border: 2px solid;
+    border-radius: 5px;
+}
+
+.pre--inline {
+    padding: 2px;
+    border-radius: 3px;
+    font-size: 0.85em;
+}
+
+.mention {
+    border-radius: 3px;
+    padding: 0 2px;
+    color: #7289da;
+    background: rgba(114, 137, 218, .1);
+    font-weight: 500;
+}
+
+.emoji {
+    width: 1.25em;
+    height: 1.25em;
+    margin: 0 0.06em;
+    vertical-align: -0.4em;
+}
+
+.emoji--small {
+    width: 1em;
+    height: 1em;
+}
+
+.emoji--large {
+    width: 2.8em;
+    height: 2.8em;
+}
+
+/* Preamble */
+
+.preamble {
+    display: grid;
+    margin: 0 0.3em 0.6em 0.3em;
+    max-width: 100%;
+    grid-template-columns: auto 1fr;
+}
+
+.preamble__guild-icon-container {
+    grid-column: 1;
+}
+
+.preamble__guild-icon {
+    max-width: 88px;
+    max-height: 88px;
+}
+
+.preamble__entries-container {
+    grid-column: 2;
+    margin-left: 0.6em;
+}
+
+.preamble__entry {
+    font-size: 1.4em;
+}
+
+.preamble__entry--small {
+    font-size: 1em;
+}
+
+/* Chatlog */
+
+.chatlog {
+    max-width: 100%;
+}
+
+.chatlog__message-group {
+    display: grid;
+    margin: 0 0.6em;
+    padding: 0.9em 0;
+    border-top: 1px solid;
+    grid-template-columns: auto 1fr;
+}
+
+.chatlog__reference-symbol {
+    grid-column: 1;
+    border-style: solid;
+    border-width: 2px 0 0 2px;
+    border-radius: 8px 0 0 0;
+    margin-left: 16px;
+    margin-top: 8px;
+}
+
+.chatlog__reference {
+    display: flex;
+    grid-column: 2;
+    margin-left: 1.2em;
+    margin-bottom: 0.25em;
+    font-size: 0.875em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    align-items: center;
+}
+
+.chatlog__reference-avatar {
+    border-radius: 50%;
+    height: 16px;
+    width: 16px;
+    margin-right: 0.25em;
+}
+
+.chatlog__reference-name {
+    margin-right: 0.25em;
+    font-weight: 600;
+}
+
+.chatlog__reference-link {
+    flex-grow: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.chatlog__reference-link:hover {
+    text-decoration: none;
+}
+
+.chatlog__reference-content > * {
+    display: inline;
+}
+
+.chatlog__reference-edited-timestamp {
+    margin-left: 0.25em;
+    font-size: 0.8em;
+}
+
+.chatlog__author-avatar-container {
+    grid-column: 1;
+    width: 40px;
+    height: 40px;
+}
+
+.chatlog__author-avatar {
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+}
+
+.chatlog__messages {
+    grid-column: 2;
+    margin-left: 1.2em;
+    min-width: 50%;
+}
+
+.chatlog__author-name {
+    font-weight: 500;
+}
+
+.chatlog__timestamp {
+    margin-left: 0.3em;
+    font-size: 0.75em;
+}
+
+.chatlog__message {
+    padding: 0.1em 0.3em;
+    margin: 0 -0.3em;
+    background-color: transparent;
+    transition: background-color 1s ease;
+}
+
+.chatlog__content {
+    font-size: 0.95em;
+    word-wrap: break-word;
+}
+
+.chatlog__edited-timestamp {
+    margin-left: 0.15em;
+    font-size: 0.8em;
+}
+
+.chatlog__attachment {
+    margin-top: 0.3em;
+}
+
+.chatlog__attachment-thumbnail {
+    vertical-align: top;
+    max-width: 45vw;
+    max-height: 500px;
+    border-radius: 3px;
+}
+
+.chatlog__attachment-container {
+    height: 40px;
+    width: 100%;
+    max-width: 520px;
+    padding: 10px;
+    border: 1px solid;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.chatlog__attachment-icon {
+    float: left;
+    height: 100%;
+    margin-right: 10px;
+}
+
+.chatlog__attachment-icon > .a {
+    fill: #f4f5fb;
+    d: path("M50,935a25,25,0,0,1-25-25V50A25,25,0,0,1,50,25H519.6L695,201.32V910a25,25,0,0,1-25,25Z");
+}
+
+.chatlog__attachment-icon > .b {
+    fill: #7789c4;
+    d: path("M509.21,50,670,211.63V910H50V50H509.21M530,0H50A50,50,0,0,0,0,50V910a50,50,0,0,0,50,50H670a50,50,0,0,0,50-50h0V191Z");
+}
+
+.chatlog__attachment-icon > .c {
+    fill: #f4f5fb;
+    d: path("M530,215a25,25,0,0,1-25-25V50a25,25,0,0,1,16.23-23.41L693.41,198.77A25,25,0,0,1,670,215Z");
+}
+
+.chatlog__attachment-icon > .d {
+    fill: #7789c4;
+    d: path("M530,70.71,649.29,190H530V70.71M530,0a50,50,0,0,0-50,50V190a50,50,0,0,0,50,50H670a50,50,0,0,0,50-50Z");
+}
+
+.chatlog__attachment-filesize {
+    color: #72767d;
+    font-size: 12px;
+}
+
+.chatlog__attachment-filename {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.chatlog__embed {
+    display: flex;
+    margin-top: 0.3em;
+    max-width: 520px;
+}
+
+.chatlog__embed-color-pill {
+    flex-shrink: 0;
+    width: 0.25em;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+
+.chatlog__embed-content-container {
+    display: flex;
+    flex-direction: column;
+    padding: 0.5em 0.6em;
+    border: 1px solid;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+
+.chatlog__embed-content {
+    display: flex;
+    width: 100%;
+}
+
+.chatlog__embed-text {
+    flex: 1;
+}
+
+.chatlog__embed-author {
+    display: flex;
+    margin-bottom: 0.3em;
+    align-items: center;
+}
+
+.chatlog__embed-author-icon {
+    margin-right: 0.5em;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+}
+
+.chatlog__embed-author-name {
+    font-size: 0.875em;
+    font-weight: 600;
+}
+
+.chatlog__embed-title {
+    margin-bottom: 0.2em;
+    font-size: 0.875em;
+    font-weight: 600;
+}
+
+.chatlog__embed-description {
+    font-weight: 500;
+    font-size: 0.85em;
+}
+
+.chatlog__embed-fields {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.chatlog__embed-field {
+    flex: 0;
+    min-width: 100%;
+    max-width: 506px;
+    padding-top: 0.6em;
+    font-size: 0.875em;
+}
+
+.chatlog__embed-field--inline {
+    flex: 1;
+    flex-basis: auto;
+    min-width: 150px;
+}
+
+.chatlog__embed-field-name {
+    margin-bottom: 0.2em;
+    font-weight: 600;
+}
+
+.chatlog__embed-field-value {
+    font-weight: 500;
+}
+
+.chatlog__embed-thumbnail {
+    flex: 0;
+    margin-left: 1.2em;
+    max-width: 80px;
+    max-height: 80px;
+    border-radius: 3px;
+}
+
+.chatlog__embed-image-container {
+    margin-top: 0.6em;
+}
+
+.chatlog__embed-image {
+    max-width: 500px;
+    max-height: 400px;
+    border-radius: 3px;
+}
+
+.chatlog__embed-footer {
+    margin-top: 0.6em;
+}
+
+.chatlog__embed-footer-icon {
+    margin-right: 0.2em;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    vertical-align: middle;
+}
+
+.chatlog__embed-footer-text {
+    font-size: 0.75em;
+    font-weight: 500;
+}
+
+.chatlog__reactions {
+    display: flex;
+}
+
+.chatlog__reaction {
+    display: flex;
+    align-items: center;
+    margin: 0.35em 0.1em 0.1em 0.1em;
+    padding: 0.2em 0.35em;
+    border-radius: 3px;
+}
+
+.chatlog__reaction-count {
+    min-width: 9px;
+    margin-left: 0.35em;
+    font-size: 0.875em;
+}
+
+.chatlog__bot-tag {
+    position: relative;
+    top: -.2em;
+    margin-left: 0.3em;
+    padding: 0.05em 0.3em;
+    border-radius: 3px;
+    vertical-align: middle;
+    line-height: 1.3;
+    background: #7289da;
+    color: #ffffff;
+    font-size: 0.625em;
+    font-weight: 500;
+}
+
+/* Postamble */
+
+.postamble {
+    margin: 1.4em 0.3em 0.6em 0.3em;
+    padding: 1em;
+    border-top: 1px solid;
+}
+    </style>
+    <style>
+        /* General */
+
+body {
+    background-color: #36393e;
+    color: #dcddde;
+}
+
+a {
+    color: #0096cf;
+}
+
+.spoiler-text {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.spoiler--hidden .spoiler-text {
+    background-color: #202225;
+}
+
+.spoiler--hidden:hover .spoiler-text {
+    background-color: rgba(32, 34, 37, 0.8);
+}
+
+.quote {
+    border-color: #4f545c;
+}
+
+.pre {
+    background-color: #2f3136 !important;
+}
+
+.pre--multiline {
+    border-color: #282b30 !important;
+    color: #b9bbbe !important;
+}
+
+/* === Preamble === */
+
+.preamble__entry {
+    color: #ffffff;
+}
+
+/* Chatlog */
+
+.chatlog__message-group {
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.chatlog__reference-symbol {
+    border-color: #4f545c;
+}
+
+.chatlog__reference {
+    color: #b5b6b8;
+}
+
+.chatlog__reference-link {
+    color: #b5b6b8;
+}
+
+.chatlog__reference-link:hover {
+    color: #ffffff;
+}
+
+.chatlog__reference-edited-timestamp {
+    color: rgba(255, 255, 255, 0.2);
+}
+
+.chatlog__author-name {
+    color: #ffffff;
+}
+
+.chatlog__timestamp {
+    color: rgba(255, 255, 255, 0.2);
+}
+
+.chatlog__message--highlighted {
+    background-color: rgba(114, 137, 218, 0.2) !important;
+}
+
+.chatlog__message--pinned {
+    background-color: rgba(249, 168, 37, 0.05);
+}
+
+.chatlog__attachment-container {
+    background-color: #2f3136;
+    border-color: #292b2f;
+}
+
+.chatlog__edited-timestamp {
+    color: rgba(255, 255, 255, 0.2);
+}
+
+.chatlog__embed-color-pill--default {
+    background-color: rgba(79, 84, 92, 1);
+}
+
+.chatlog__embed-content-container {
+    background-color: rgba(46, 48, 54, 0.3);
+    border-color: rgba(46, 48, 54, 0.6);
+}
+
+.chatlog__embed-author-name {
+    color: #ffffff;
+}
+
+.chatlog__embed-author-name-link {
+    color: #ffffff;
+}
+
+.chatlog__embed-title {
+    color: #ffffff;
+}
+
+.chatlog__embed-description {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.chatlog__embed-field-name {
+    color: #ffffff;
+}
+
+.chatlog__embed-field-value {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.chatlog__embed-footer {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.chatlog__reaction {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.chatlog__reaction-count {
+    color: rgba(255, 255, 255, 0.3);
+}
+
+/* Postamble */
+
+.postamble {
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.postamble__entry {
+    color: #ffffff;
+}
+    </style>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/solarized-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.pre--multiline').forEach(block => hljs.highlightBlock(block));
+        });
+    </script>
+
+    <script>
+        function scrollToMessage(event, id) {
+            var element = document.getElementById('message-' + id);
+
+            if (element) {
+                event.preventDefault();
+
+                element.classList.add('chatlog__message--highlighted');
+
+                window.scrollTo({
+                    top: element.getBoundingClientRect().top - document.body.getBoundingClientRect().top - (window.innerHeight / 2),
+                    behavior: 'smooth'
+                });
+
+                window.setTimeout(function() {
+                    element.classList.remove('chatlog__message--highlighted');
+                }, 2000);
+            }
+        }
+
+        function showSpoiler(event, element) {
+            if (element && element.classList.contains('spoiler--hidden')) {
+                event.preventDefault();
+                element.classList.remove('spoiler--hidden');
+            }
+        }
+    </script>
+</head>
+<body>
+
+<div class="preamble">
+    <div class="preamble__guild-icon-container">
+        <img class="preamble__guild-icon" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/1d332fa4305f49e52a9aa156f46b5ef4-8B3C2.png" alt="Guild icon">
+    </div>
+    <div class="preamble__entries-container">
+        <div class="preamble__entry">Motorball</div>
+        <div class="preamble__entry">Non-English Community Chat / 日本語-chat</div>
+
+
+    </div>
+</div>
+
+<div class="chatlog">
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/8bbd133732a25534dcf025a1f3576a18-275E7.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Barbecue Sauce#3982" data-user-id="270488993500626945" style="">Barbecue Sauce</span>
+
+
+        <span class="chatlog__timestamp">10-Aug-20 12:19 AM</span>
+
+            <div class="chatlog__message " data-message-id="742280866448932945" id="message-742280866448932945">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">みんなこんにちは</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/f9a48d10548833edf2ddaf1575c27a61-023EB.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="しょーいち#1765" data-user-id="650331278935326722" style="">しょーいち</span>
+
+
+        <span class="chatlog__timestamp">10-Aug-20 02:04 AM</span>
+
+            <div class="chatlog__message " data-message-id="742307379730841631" id="message-742307379730841631">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">このチャンネル内で見たのですが、サーバーが分けられているから日本人ばっかりマッチングしているみたいですね…(自分の解釈が合っていれば)</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/33fa2ccf55be2bab4da7fc83907cec29-22A2F.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Adamm#6953" data-user-id="529003883830312963" style="color: rgb(46,204,113)">Adamm | Elite Kings</span>
+
+
+        <span class="chatlog__timestamp">10-Aug-20 02:04 AM</span>
+
+            <div class="chatlog__message " data-message-id="742307476967522334" id="message-742307476967522334">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Google translate can&#39;t help with this one :/</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/f9a48d10548833edf2ddaf1575c27a61-023EB.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="しょーいち#1765" data-user-id="650331278935326722" style="">しょーいち</span>
+
+
+        <span class="chatlog__timestamp">10-Aug-20 02:07 AM</span>
+
+            <div class="chatlog__message " data-message-id="742308206445068291" id="message-742308206445068291">
+
+                    <div class="chatlog__attachment">
+                        <div class="" onclick="">
+                            <div class="">
+                                    <a href="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/image0-6431E.png">
+                                        <img class="chatlog__attachment-thumbnail" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/image0-6431E.png" alt="Image attachment" title="Image: image0.png (362.74 KB)">
+                                    </a>
+                            </div>
+                        </div>
+                    </div>
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="742308458979917854" id="message-742308458979917854">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace"><span class="mention" title="Adamm#6953">@Adamm | Elite Kings</span> 
+I guessed from here</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/8bbd133732a25534dcf025a1f3576a18-275E7.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Barbecue Sauce#3982" data-user-id="270488993500626945" style="">Barbecue Sauce</span>
+
+
+        <span class="chatlog__timestamp">10-Aug-20 02:09 AM</span>
+
+            <div class="chatlog__message " data-message-id="742308570724565016" id="message-742308570724565016">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">The key to using google translate is to do it in chunks rather than entire sentences</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="742308616123449438" id="message-742308616123449438">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Trust me, I did Japanese in high school</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/f9a48d10548833edf2ddaf1575c27a61-023EB.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="しょーいち#1765" data-user-id="650331278935326722" style="">しょーいち</span>
+
+
+        <span class="chatlog__timestamp">10-Aug-20 02:12 AM</span>
+
+            <div class="chatlog__message " data-message-id="742309386415767572" id="message-742309386415767572">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace"><div class="quote">このチャンネル内で見たのですが、サーバーが分けられているから日本人ばっかりマッチングしているみたいですね…(自分の解釈が合っていれば)
+</div><span class="mention" title="しょーいち#1765">@しょーいち</span>  
+
+I saw it on this channel, but it seems that Japanese are matched only because the server is divided ... (if my interpretation is correct)
+
+Google translation</span>
+
+                        </div>
+                    </div>
+
+
+
+                    <div class="chatlog__reactions">
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#128591;" title="&#128591;" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/1f64f-71468.png">
+                                <span class="chatlog__reaction-count">1</span>
+                            </div>
+                    </div>
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/33fa2ccf55be2bab4da7fc83907cec29-22A2F.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Adamm#6953" data-user-id="529003883830312963" style="color: rgb(46,204,113)">Adamm | Elite Kings</span>
+
+
+        <span class="chatlog__timestamp">10-Aug-20 02:13 AM</span>
+
+            <div class="chatlog__message " data-message-id="742309764461232189" id="message-742309764461232189">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">うんそれと関係があるあなたのサーバーあります</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/8bbd133732a25534dcf025a1f3576a18-275E7.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Barbecue Sauce#3982" data-user-id="270488993500626945" style="">Barbecue Sauce</span>
+
+
+        <span class="chatlog__timestamp">10-Aug-20 02:14 AM</span>
+
+            <div class="chatlog__message " data-message-id="742309812196474891" id="message-742309812196474891">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">オーストラリア人で、たくさん日本人もマッチングしてるね。</span>
+
+                        </div>
+                    </div>
+
+
+
+                    <div class="chatlog__reactions">
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#129488;" title="&#129488;" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/1f9d0-FC0A2.png">
+                                <span class="chatlog__reaction-count">1</span>
+                            </div>
+                    </div>
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/33fa2ccf55be2bab4da7fc83907cec29-22A2F.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Adamm#6953" data-user-id="529003883830312963" style="color: rgb(46,204,113)">Adamm | Elite Kings</span>
+
+
+        <span class="chatlog__timestamp">10-Aug-20 02:15 AM</span>
+
+            <div class="chatlog__message " data-message-id="742310079193153566" id="message-742310079193153566">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">ああ、それは可能だとは思わなかった</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/8bbd133732a25534dcf025a1f3576a18-275E7.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Barbecue Sauce#3982" data-user-id="270488993500626945" style="">Barbecue Sauce</span>
+
+
+        <span class="chatlog__timestamp">10-Aug-20 02:15 AM</span>
+
+            <div class="chatlog__message " data-message-id="742310139473952849" id="message-742310139473952849">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">すみません、私の日本語はわるい</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/f9a48d10548833edf2ddaf1575c27a61-023EB.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="しょーいち#1765" data-user-id="650331278935326722" style="">しょーいち</span>
+
+
+        <span class="chatlog__timestamp">10-Aug-20 02:16 AM</span>
+
+            <div class="chatlog__message " data-message-id="742310357829156894" id="message-742310357829156894">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">No problem<img class="emoji " alt="😂" title="😂" src="https://twemoji.maxcdn.com/2/72x72/1f602.png"><img class="emoji " alt="😂" title="😂" src="https://twemoji.maxcdn.com/2/72x72/1f602.png"></span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/33fa2ccf55be2bab4da7fc83907cec29-22A2F.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Adamm#6953" data-user-id="529003883830312963" style="color: rgb(46,204,113)">Adamm | Elite Kings</span>
+
+
+        <span class="chatlog__timestamp">10-Aug-20 02:16 AM</span>
+
+            <div class="chatlog__message " data-message-id="742310389404008479" id="message-742310389404008479">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">私もそうです</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="742310407376732200" id="message-742310407376732200">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">私はGoogle翻訳を使わなければなりません</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/8bbd133732a25534dcf025a1f3576a18-275E7.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Barbecue Sauce#3982" data-user-id="270488993500626945" style="">Barbecue Sauce</span>
+
+
+        <span class="chatlog__timestamp">10-Aug-20 02:18 AM</span>
+
+            <div class="chatlog__message " data-message-id="742310857840525396" id="message-742310857840525396">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Google翻訳はジェズスですね。</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/33fa2ccf55be2bab4da7fc83907cec29-22A2F.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Adamm#6953" data-user-id="529003883830312963" style="color: rgb(46,204,113)">Adamm | Elite Kings</span>
+
+
+        <span class="chatlog__timestamp">10-Aug-20 02:20 AM</span>
+
+            <div class="chatlog__message " data-message-id="742311280429498388" id="message-742311280429498388">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">うん</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/f9a48d10548833edf2ddaf1575c27a61-023EB.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="しょーいち#1765" data-user-id="650331278935326722" style="">しょーいち</span>
+
+
+        <span class="chatlog__timestamp">10-Aug-20 02:20 AM</span>
+
+            <div class="chatlog__message " data-message-id="742311305230418010" id="message-742311305230418010">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">ジェズス is Jesus？</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/8bbd133732a25534dcf025a1f3576a18-275E7.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Barbecue Sauce#3982" data-user-id="270488993500626945" style="">Barbecue Sauce</span>
+
+
+        <span class="chatlog__timestamp">10-Aug-20 02:20 AM</span>
+
+            <div class="chatlog__message " data-message-id="742311350122053745" id="message-742311350122053745">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">はい</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="742312271220572230" id="message-742312271220572230">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">英語で”Jesus”が日本語ではイエスですか。</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/33fa2ccf55be2bab4da7fc83907cec29-22A2F.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Adamm#6953" data-user-id="529003883830312963" style="color: rgb(46,204,113)">Adamm | Elite Kings</span>
+
+
+        <span class="chatlog__timestamp">10-Aug-20 02:25 AM</span>
+
+            <div class="chatlog__message " data-message-id="742312731394310164" id="message-742312731394310164">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Some of the symbols look very similar to each other, do people ever mix them up and mistake them for different words?</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="742312801762279484" id="message-742312801762279484">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Or is everyone who speeks Japanese just used to it</span>
+
+                                <span class="chatlog__edited-timestamp" title="10-Aug-20 02:26 AM">(edited)</span>
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/8bbd133732a25534dcf025a1f3576a18-275E7.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Barbecue Sauce#3982" data-user-id="270488993500626945" style="">Barbecue Sauce</span>
+
+
+        <span class="chatlog__timestamp">10-Aug-20 02:26 AM</span>
+
+            <div class="chatlog__message " data-message-id="742312895114903552" id="message-742312895114903552">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">It&#39;s similar to english really</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="742312945647878195" id="message-742312945647878195">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">how often do you get m, n, and h mixed up?</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="742313141173747774" id="message-742313141173747774">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Or how about a and e (depending on the font)</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="742313182105829477" id="message-742313182105829477">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">i and j must be a killer</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/33fa2ccf55be2bab4da7fc83907cec29-22A2F.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Adamm#6953" data-user-id="529003883830312963" style="color: rgb(46,204,113)">Adamm | Elite Kings</span>
+
+
+        <span class="chatlog__timestamp">10-Aug-20 02:27 AM</span>
+
+            <div class="chatlog__message " data-message-id="742313290365141074" id="message-742313290365141074">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">I guess, but doesn&#39;t Japanese use a single symbol for entire words?</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/8bbd133732a25534dcf025a1f3576a18-275E7.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Barbecue Sauce#3982" data-user-id="270488993500626945" style="">Barbecue Sauce</span>
+
+
+        <span class="chatlog__timestamp">10-Aug-20 02:28 AM</span>
+
+            <div class="chatlog__message " data-message-id="742313321574694912" id="message-742313321574694912">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Sometimes</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="742313350888685568" id="message-742313350888685568">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">But not usually</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/33fa2ccf55be2bab4da7fc83907cec29-22A2F.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Adamm#6953" data-user-id="529003883830312963" style="color: rgb(46,204,113)">Adamm | Elite Kings</span>
+
+
+        <span class="chatlog__timestamp">10-Aug-20 02:28 AM</span>
+
+            <div class="chatlog__message " data-message-id="742313474339897395" id="message-742313474339897395">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Sometimes you can mistake individual letters, but you can usually make sense from the rest of the word/sentence, Japanese is probably the same..?</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="742313489913085962" id="message-742313489913085962">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Oh really?</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="742313540786061424" id="message-742313540786061424">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">I thought like every word was an individual symbol :/</span>
+
+                                <span class="chatlog__edited-timestamp" title="10-Aug-20 02:29 AM">(edited)</span>
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/8bbd133732a25534dcf025a1f3576a18-275E7.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Barbecue Sauce#3982" data-user-id="270488993500626945" style="">Barbecue Sauce</span>
+
+
+        <span class="chatlog__timestamp">10-Aug-20 02:29 AM</span>
+
+            <div class="chatlog__message " data-message-id="742313552072802384" id="message-742313552072802384">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Yeah, it&#39;s weird like that</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="742313576475394141" id="message-742313576475394141">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">nah that&#39;s chinese</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="742313742855045160" id="message-742313742855045160">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">It&#39;d be like if english was <em>mostly</em> made of lettered words but then <em>some</em> words had pictures instead, but only at the root word</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/33fa2ccf55be2bab4da7fc83907cec29-22A2F.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Adamm#6953" data-user-id="529003883830312963" style="color: rgb(46,204,113)">Adamm | Elite Kings</span>
+
+
+        <span class="chatlog__timestamp">10-Aug-20 02:30 AM</span>
+
+            <div class="chatlog__message " data-message-id="742313843862011926" id="message-742313843862011926">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Ah ok</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/8bbd133732a25534dcf025a1f3576a18-275E7.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Barbecue Sauce#3982" data-user-id="270488993500626945" style="">Barbecue Sauce</span>
+
+
+        <span class="chatlog__timestamp">10-Aug-20 02:30 AM</span>
+
+            <div class="chatlog__message " data-message-id="742313919720325132" id="message-742313919720325132">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">So instead of draw, drawn and drawing you could have <img class="emoji " alt="🖊" title="🖊" src="https://twemoji.maxcdn.com/2/72x72/1f58a.png">️ ,<img class="emoji " alt="🖊" title="🖊" src="https://twemoji.maxcdn.com/2/72x72/1f58a.png">️ n, and <img class="emoji " alt="🖊" title="🖊" src="https://twemoji.maxcdn.com/2/72x72/1f58a.png">️ ing</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/33fa2ccf55be2bab4da7fc83907cec29-22A2F.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Adamm#6953" data-user-id="529003883830312963" style="color: rgb(46,204,113)">Adamm | Elite Kings</span>
+
+
+        <span class="chatlog__timestamp">10-Aug-20 02:31 AM</span>
+
+            <div class="chatlog__message " data-message-id="742314054890029068" id="message-742314054890029068">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Oh ok, that actually makes a lot of sense lol</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/8bbd133732a25534dcf025a1f3576a18-275E7.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Barbecue Sauce#3982" data-user-id="270488993500626945" style="">Barbecue Sauce</span>
+
+
+        <span class="chatlog__timestamp">10-Aug-20 02:31 AM</span>
+
+            <div class="chatlog__message " data-message-id="742314236801187900" id="message-742314236801187900">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">And the way I explained it just then makes it seem like the pictures came in second but it was actualy just pictures until the japanese figured out that that system sucked for their language</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/33fa2ccf55be2bab4da7fc83907cec29-22A2F.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Adamm#6953" data-user-id="529003883830312963" style="color: rgb(46,204,113)">Adamm | Elite Kings</span>
+
+
+        <span class="chatlog__timestamp">10-Aug-20 02:32 AM</span>
+
+            <div class="chatlog__message " data-message-id="742314411707858964" id="message-742314411707858964">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Oh hah</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/1e9925a2057118cc3e0dce796e6143d4-62E8C.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="すろう#7500" data-user-id="442303135268995072" style="">すろう</span>
+
+
+        <span class="chatlog__timestamp">10-Aug-20 03:01 AM</span>
+
+            <div class="chatlog__message " data-message-id="742321803631788112" id="message-742321803631788112">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">日本語のチャット部屋が出来たんですね</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="742322071258005586" id="message-742322071258005586">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">私の英語がまだまだ未熟なので助かります</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/1e9925a2057118cc3e0dce796e6143d4-62E8C.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="すろう#7500" data-user-id="442303135268995072" style="">すろう</span>
+
+
+        <span class="chatlog__timestamp">11-Aug-20 07:57 PM</span>
+
+            <div class="chatlog__message " data-message-id="742939858481447034" id="message-742939858481447034">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace"><span class="mention" title="しいたけ#0627">@しいたけ</span> 1000おめでとうございます！ かてません<img class="emoji " alt="😇" title="😇" src="https://twemoji.maxcdn.com/2/72x72/1f607.png"></span>
+
+                        </div>
+                    </div>
+
+
+
+                    <div class="chatlog__reactions">
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#129392;" title="&#129392;" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/1f970-1D97E.png">
+                                <span class="chatlog__reaction-count">1</span>
+                            </div>
+                    </div>
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/f9a48d10548833edf2ddaf1575c27a61-023EB.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="しょーいち#1765" data-user-id="650331278935326722" style="">しょーいち</span>
+
+
+        <span class="chatlog__timestamp">12-Aug-20 06:31 AM</span>
+
+            <div class="chatlog__message " data-message-id="743099459956768818" id="message-743099459956768818">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">早く1000超えたい…</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/1e9925a2057118cc3e0dce796e6143d4-62E8C.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="すろう#7500" data-user-id="442303135268995072" style="">すろう</span>
+
+
+        <span class="chatlog__timestamp">12-Aug-20 08:10 AM</span>
+
+            <div class="chatlog__message " data-message-id="743124347924775033" id="message-743124347924775033">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace"><span class="mention" title="しょーいち#1765">@しょーいち</span> お待ちしてます<img class="emoji " alt="🙄" title="🙄" src="https://twemoji.maxcdn.com/2/72x72/1f644.png"></span>
+
+                        </div>
+                    </div>
+
+
+
+                    <div class="chatlog__reactions">
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#129392;" title="&#129392;" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/1f970-1D97E.png">
+                                <span class="chatlog__reaction-count">1</span>
+                            </div>
+                    </div>
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/1a92e5681d37734f531a367adaa2c969-E4079.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="ぺぺろそちーの#2220" data-user-id="596706427108720675" style="">ぺぺろそちーの</span>
+
+
+        <span class="chatlog__timestamp">13-Aug-20 09:26 AM</span>
+
+            <div class="chatlog__message " data-message-id="743505728542605352" id="message-743505728542605352">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">初めまして</span>
+
+                        </div>
+                    </div>
+
+
+
+                    <div class="chatlog__reactions">
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#128077;" title="&#128077;" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/1f44d-1485B.png">
+                                <span class="chatlog__reaction-count">1</span>
+                            </div>
+                    </div>
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/8bbd133732a25534dcf025a1f3576a18-275E7.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Barbecue Sauce#3982" data-user-id="270488993500626945" style="">Barbecue Sauce</span>
+
+
+        <span class="chatlog__timestamp">13-Aug-20 09:41 AM</span>
+
+            <div class="chatlog__message " data-message-id="743509489407492106" id="message-743509489407492106">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">はじめましてペペ</span>
+
+                        </div>
+                    </div>
+
+
+
+                    <div class="chatlog__reactions">
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#128170;" title="&#128170;" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/1f4aa-4A1A3.png">
+                                <span class="chatlog__reaction-count">2</span>
+                            </div>
+                    </div>
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/1a92e5681d37734f531a367adaa2c969-E4079.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="ぺぺろそちーの#2220" data-user-id="596706427108720675" style="">ぺぺろそちーの</span>
+
+
+        <span class="chatlog__timestamp">13-Aug-20 10:28 AM</span>
+
+            <div class="chatlog__message " data-message-id="743521262856306798" id="message-743521262856306798">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">サーバー分けられてるのですか？</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="743521347514269868" id="message-743521347514269868">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">日本人としか当たらないと思ったのですが</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/1e9925a2057118cc3e0dce796e6143d4-62E8C.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="すろう#7500" data-user-id="442303135268995072" style="">すろう</span>
+
+
+        <span class="chatlog__timestamp">13-Aug-20 10:31 AM</span>
+
+            <div class="chatlog__message " data-message-id="743522091025956984" id="message-743522091025956984">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">そうすね  基本的に近い人としか当たらないと思われます</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/1a92e5681d37734f531a367adaa2c969-E4079.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="ぺぺろそちーの#2220" data-user-id="596706427108720675" style="">ぺぺろそちーの</span>
+
+
+        <span class="chatlog__timestamp">13-Aug-20 10:40 AM</span>
+
+            <div class="chatlog__message " data-message-id="743524457661988914" id="message-743524457661988914">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">出来れば色々な人と当たってみたい</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/898b49a17e69f3aba6c54f44d40af24a-7881B.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="&#120237;&#120234;.&#120811;&#120810;#0032" data-user-id="316876843204608002" style="color: rgb(241,196,15)">&#120237;&#120234;.&#120811;&#120810;</span>
+
+
+        <span class="chatlog__timestamp">13-Aug-20 01:35 PM</span>
+
+            <div class="chatlog__message " data-message-id="743568472742559805" id="message-743568472742559805">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">いつの間にか日本語チャット出来てた、、、</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/1e9925a2057118cc3e0dce796e6143d4-62E8C.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="すろう#7500" data-user-id="442303135268995072" style="">すろう</span>
+
+
+        <span class="chatlog__timestamp">13-Aug-20 03:24 PM</span>
+
+            <div class="chatlog__message " data-message-id="743595967797788692" id="message-743595967797788692">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">自分が総合チャットの方でぎこちない英語言ってるの聞いた人達が要望出してくれたみたいです  ありがたいです</span>
+
+                        </div>
+                    </div>
+
+
+
+                    <div class="chatlog__reactions">
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#128077;" title="&#128077;" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/1f44d-1485B.png">
+                                <span class="chatlog__reaction-count">2</span>
+                            </div>
+                    </div>
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/405a0bc61d4761f03569b61785de1c50-FC30E.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="ホッカイロ#8638" data-user-id="674748721262755871" style="">ホッカイロ</span>
+
+
+        <span class="chatlog__timestamp">19-Aug-20 02:22 AM</span>
+
+            <div class="chatlog__message " data-message-id="745573407386763294" id="message-745573407386763294">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">全員のランキングとレベル1のランキングの違いを教えて貰えませんか</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/7d37522e48f92cfebe4d613c8d8450fe-A4A68.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="しいたけ#0627" data-user-id="700305112408653915" style="">しいたけ</span>
+
+
+        <span class="chatlog__timestamp">19-Aug-20 02:43 AM</span>
+
+            <div class="chatlog__message " data-message-id="745578617576095804" id="message-745578617576095804">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">シーズンが始まった時のレベルのランキングなので今は全員レベル1のランキングになります</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/f76253ae9709801d20e1633aa2d8c187-F9860.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="thetolytrinity#5850" data-user-id="302475353795067904" style="">thetolytrinity</span>
+
+
+        <span class="chatlog__timestamp">20-Aug-20 02:05 AM</span>
+
+            <div class="chatlog__message " data-message-id="745931600914546748" id="message-745931600914546748">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">What happened to mario</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/0-EB806.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Deleted User#0000" data-user-id="456226577798135808" style="">Deleted User</span>
+
+
+        <span class="chatlog__timestamp">20-Aug-20 05:52 AM</span>
+
+            <div class="chatlog__message " data-message-id="745988583395033188" id="message-745988583395033188">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Chinese Or Korea Or Japan</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="745988600071716914" id="message-745988600071716914">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">I Say Chinese</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/8bbd133732a25534dcf025a1f3576a18-275E7.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Barbecue Sauce#3982" data-user-id="270488993500626945" style="">Barbecue Sauce</span>
+
+
+        <span class="chatlog__timestamp">20-Aug-20 08:08 AM</span>
+
+            <div class="chatlog__message " data-message-id="746022872547590254" id="message-746022872547590254">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">私も</span>
+
+                        </div>
+                    </div>
+
+                    <div class="chatlog__attachment">
+                        <div class="" onclick="">
+                            <div class="">
+                                    <a href="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/image0-DA3BE.png">
+                                        <img class="chatlog__attachment-thumbnail" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/image0-DA3BE.png" alt="Image attachment" title="Image: image0.png (2.63 MB)">
+                                    </a>
+                            </div>
+                        </div>
+                    </div>
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/1e9925a2057118cc3e0dce796e6143d4-62E8C.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="すろう#7500" data-user-id="442303135268995072" style="">すろう</span>
+
+
+        <span class="chatlog__timestamp">27-Aug-20 03:00 AM</span>
+
+            <div class="chatlog__message " data-message-id="748482100914683904" id="message-748482100914683904">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">He said &quot;I was tired&quot; in direct message
+so, I think it that he don&#39;t come official varsion.</span>
+
+                                <span class="chatlog__edited-timestamp" title="27-Aug-20 03:07 AM">(edited)</span>
+                        </div>
+                    </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="748483539510755329" id="message-748483539510755329">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace"><div class="quote">What happened to mario
+</div><span class="mention" title="thetolytrinity#5850">@thetolytrinity</span></span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/351a9f58f9eec8c2376283a0bc08f81d-77648.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="りゎむに#0867" data-user-id="348486202908737536" style="">Celestial Axes</span>
+
+
+        <span class="chatlog__timestamp">31-Aug-20 09:01 AM</span>
+
+            <div class="chatlog__message " data-message-id="750022541287882914" id="message-750022541287882914">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">はじめまして 日本一狙ってます。</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/1e9925a2057118cc3e0dce796e6143d4-62E8C.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="すろう#7500" data-user-id="442303135268995072" style="">すろう</span>
+
+
+        <span class="chatlog__timestamp">31-Aug-20 09:03 AM</span>
+
+            <div class="chatlog__message " data-message-id="750022988631507146" id="message-750022988631507146">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">頑張ってください</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/351a9f58f9eec8c2376283a0bc08f81d-77648.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="りゎむに#0867" data-user-id="348486202908737536" style="">Celestial Axes</span>
+
+
+        <span class="chatlog__timestamp">31-Aug-20 09:05 AM</span>
+
+            <div class="chatlog__message " data-message-id="750023469130842264" id="message-750023469130842264">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace"><span class="mention" title="すろう#7500">@すろう</span> 日本2位さん、ありがとうございます</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/1e9925a2057118cc3e0dce796e6143d4-62E8C.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="すろう#7500" data-user-id="442303135268995072" style="">すろう</span>
+
+
+        <span class="chatlog__timestamp">31-Aug-20 09:05 AM</span>
+
+            <div class="chatlog__message " data-message-id="750023561871360130" id="message-750023561871360130">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">3位です</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="750023940646240276" id="message-750023940646240276">
+
+                    <div class="chatlog__attachment">
+                        <div class="" onclick="">
+                            <div class="">
+                                    <a href="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/image0-38D16.png">
+                                        <img class="chatlog__attachment-thumbnail" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/image0-38D16.png" alt="Image attachment" title="Image: image0.png (106.98 KB)">
+                                    </a>
+                            </div>
+                        </div>
+                    </div>
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/351a9f58f9eec8c2376283a0bc08f81d-77648.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="りゎむに#0867" data-user-id="348486202908737536" style="">Celestial Axes</span>
+
+
+        <span class="chatlog__timestamp">31-Aug-20 09:10 AM</span>
+
+            <div class="chatlog__message " data-message-id="750024627928956939" id="message-750024627928956939">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">がんばって；；</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/1e9925a2057118cc3e0dce796e6143d4-62E8C.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="すろう#7500" data-user-id="442303135268995072" style="">すろう</span>
+
+
+        <span class="chatlog__timestamp">31-Aug-20 09:11 AM</span>
+
+            <div class="chatlog__message " data-message-id="750024865993588858" id="message-750024865993588858">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">ありがとう；；</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/1e9925a2057118cc3e0dce796e6143d4-62E8C.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="すろう#7500" data-user-id="442303135268995072" style="">すろう</span>
+
+
+        <span class="chatlog__timestamp">02-Sep-20 06:39 PM</span>
+
+            <div class="chatlog__message " data-message-id="750892633215467540" id="message-750892633215467540">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">mickeyfreeさん強すぎらしいけど全然マッチング出来ない</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="750892718171095132" id="message-750892718171095132">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">(;o;)</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/351a9f58f9eec8c2376283a0bc08f81d-77648.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="りゎむに#0867" data-user-id="348486202908737536" style="">Celestial Axes</span>
+
+
+        <span class="chatlog__timestamp">03-Sep-20 10:29 AM</span>
+
+            <div class="chatlog__message " data-message-id="751131734132785224" id="message-751131734132785224">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Japaneseさん、世界6位おめでとうございます。</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/1e9925a2057118cc3e0dce796e6143d4-62E8C.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="すろう#7500" data-user-id="442303135268995072" style="">すろう</span>
+
+
+        <span class="chatlog__timestamp">03-Sep-20 10:31 AM</span>
+
+            <div class="chatlog__message " data-message-id="751132346975125699" id="message-751132346975125699">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">ありがとうございます<img class="emoji " alt="🥳" title="🥳" src="https://twemoji.maxcdn.com/2/72x72/1f973.png"></span>
+
+                                <span class="chatlog__edited-timestamp" title="03-Sep-20 10:51 AM">(edited)</span>
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/1a92e5681d37734f531a367adaa2c969-E4079.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="ぺぺろそちーの#2220" data-user-id="596706427108720675" style="">ぺぺろそちーの</span>
+
+
+        <span class="chatlog__timestamp">05-Sep-20 12:23 AM</span>
+
+            <div class="chatlog__message " data-message-id="751704054622847037" id="message-751704054622847037">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">1000です</span>
+
+                        </div>
+                    </div>
+
+                    <div class="chatlog__attachment">
+                        <div class="" onclick="">
+                            <div class="">
+                                    <a href="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/image0-4022C.jpg">
+                                        <img class="chatlog__attachment-thumbnail" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/image0-4022C.jpg" alt="Image attachment" title="Image: image0.jpg (82.4 KB)">
+                                    </a>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="chatlog__reactions">
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="arrowup" title="arrowup" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/664494345965273149-16F48.png">
+                                <span class="chatlog__reaction-count">2</span>
+                            </div>
+                    </div>
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/1e9925a2057118cc3e0dce796e6143d4-62E8C.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="すろう#7500" data-user-id="442303135268995072" style="">すろう</span>
+
+
+        <span class="chatlog__timestamp">05-Sep-20 12:51 AM</span>
+
+            <div class="chatlog__message " data-message-id="751711027946717194" id="message-751711027946717194">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace"><img class="emoji emoji--large" alt="🥳" title="🥳" src="https://twemoji.maxcdn.com/2/72x72/1f973.png"></span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/351a9f58f9eec8c2376283a0bc08f81d-77648.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="りゎむに#0867" data-user-id="348486202908737536" style="">Celestial Axes</span>
+
+
+        <span class="chatlog__timestamp">05-Sep-20 08:28 AM</span>
+
+            <div class="chatlog__message " data-message-id="751826207095521282" id="message-751826207095521282">
+
+                    <div class="chatlog__attachment">
+                        <div class="" onclick="">
+                            <div class="">
+                                    <a href="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/image0-EB599.png">
+                                        <img class="chatlog__attachment-thumbnail" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/image0-EB599.png" alt="Image attachment" title="Image: image0.png (1.03 MB)">
+                                    </a>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="chatlog__reactions">
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="arrowup" title="arrowup" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/664494345965273149-16F48.png">
+                                <span class="chatlog__reaction-count">1</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="win" title="win" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/740670375150616738-B2F47.png">
+                                <span class="chatlog__reaction-count">1</span>
+                            </div>
+                    </div>
+            </div>
+            <div class="chatlog__message " data-message-id="751826236937994314" id="message-751826236937994314">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">800いきました<img class="emoji " alt="😌" title="😌" src="https://twemoji.maxcdn.com/2/72x72/1f60c.png"></span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/1e9925a2057118cc3e0dce796e6143d4-62E8C.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="すろう#7500" data-user-id="442303135268995072" style="">すろう</span>
+
+
+        <span class="chatlog__timestamp">05-Sep-20 04:29 PM</span>
+
+            <div class="chatlog__message " data-message-id="751947150497415299" id="message-751947150497415299">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">(^O^)/</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/16d0f430b1ecb1cd2b505f63adc685f5-A1FD2.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="たにし#7263" data-user-id="644914679268900885" style="">Tanishy</span>
+
+
+        <span class="chatlog__timestamp">06-Sep-20 10:43 PM</span>
+
+            <div class="chatlog__message " data-message-id="752403678304141403" id="message-752403678304141403">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace"><img class="emoji emoji--large" alt="🤯" title="🤯" src="https://twemoji.maxcdn.com/2/72x72/1f92f.png"></span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/16d0f430b1ecb1cd2b505f63adc685f5-A1FD2.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="たにし#7263" data-user-id="644914679268900885" style="">Tanishy</span>
+
+
+        <span class="chatlog__timestamp">06-Sep-20 11:09 PM</span>
+
+            <div class="chatlog__message " data-message-id="752410082402238549" id="message-752410082402238549">
+
+                    <div class="chatlog__attachment">
+                        <div class="" onclick="">
+                            <div class="">
+                                    <a href="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/Screenshot_20200907-150854-36FDE.png">
+                                        <img class="chatlog__attachment-thumbnail" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/Screenshot_20200907-150854-36FDE.png" alt="Image attachment" title="Image: Screenshot_20200907-150854.png (591.06 KB)">
+                                    </a>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="chatlog__reactions">
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="win" title="win" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/740670375150616738-B2F47.png">
+                                <span class="chatlog__reaction-count">2</span>
+                            </div>
+                    </div>
+            </div>
+            <div class="chatlog__message " data-message-id="752410088613871757" id="message-752410088613871757">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">500！</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/1e9925a2057118cc3e0dce796e6143d4-62E8C.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="すろう#7500" data-user-id="442303135268995072" style="">すろう</span>
+
+
+        <span class="chatlog__timestamp">06-Sep-20 11:10 PM</span>
+
+            <div class="chatlog__message " data-message-id="752410533256364084" id="message-752410533256364084">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">b(^o^)d</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/351a9f58f9eec8c2376283a0bc08f81d-77648.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="りゎむに#0867" data-user-id="348486202908737536" style="">Celestial Axes</span>
+
+
+        <span class="chatlog__timestamp">07-Sep-20 04:34 AM</span>
+
+            <div class="chatlog__message " data-message-id="752491972022894623" id="message-752491972022894623">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">(≧∇≦)b</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/16d0f430b1ecb1cd2b505f63adc685f5-A1FD2.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="たにし#7263" data-user-id="644914679268900885" style="">Tanishy</span>
+
+
+        <span class="chatlog__timestamp">07-Sep-20 08:17 AM</span>
+
+            <div class="chatlog__message " data-message-id="752548074257383435" id="message-752548074257383435">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">650らへんの壁が厚い<img class="emoji " alt="🙃" title="🙃" src="https://twemoji.maxcdn.com/2/72x72/1f643.png"></span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/1e9925a2057118cc3e0dce796e6143d4-62E8C.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="すろう#7500" data-user-id="442303135268995072" style="">すろう</span>
+
+
+        <span class="chatlog__timestamp">07-Sep-20 08:50 AM</span>
+
+            <div class="chatlog__message " data-message-id="752556460210389082" id="message-752556460210389082">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">わかります</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="752556514849587212" id="message-752556514849587212">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">そのうち上がってくんで頑張って</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/1e9925a2057118cc3e0dce796e6143d4-62E8C.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="すろう#7500" data-user-id="442303135268995072" style="">すろう</span>
+
+
+        <span class="chatlog__timestamp">11-Sep-20 03:21 AM</span>
+
+            <div class="chatlog__message " data-message-id="753923100617474130" id="message-753923100617474130">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace"><span class="mention" title="Mickeyfree#2014">@Mickeyfree</span> おかえりなさい</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="753923359783387177" id="message-753923359783387177">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">今シーズンは是非戦いたいです</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/5b12817009ab9284e4419b61887742d5-DD9CE.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Mickeyfree#2014" data-user-id="593000133256282112" style="">Mickeyfree</span>
+
+
+        <span class="chatlog__timestamp">11-Sep-20 03:22 AM</span>
+
+            <div class="chatlog__message " data-message-id="753923372424888320" id="message-753923372424888320">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">ありがとう、仕事は忙しい。</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="753923710989107261" id="message-753923710989107261">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">私はあなたが思うほど上手ではありません。  <img class="emoji " alt="😂" title="😂" src="https://twemoji.maxcdn.com/2/72x72/1f602.png"></span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="753923721328328774" id="message-753923721328328774">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">私はすでに私のエッジを失いました。  <img class="emoji " alt="😭" title="😭" src="https://twemoji.maxcdn.com/2/72x72/1f62d.png"></span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/1e9925a2057118cc3e0dce796e6143d4-62E8C.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="すろう#7500" data-user-id="442303135268995072" style="">すろう</span>
+
+
+        <span class="chatlog__timestamp">11-Sep-20 03:23 AM</span>
+
+            <div class="chatlog__message " data-message-id="753923724419399691" id="message-753923724419399691">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">随分大変なお仕事なんですね...応援してます</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="753923856774856754" id="message-753923856774856754">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">でも私はシーズン2であなたに負けました、実力は確かです</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/a_8ce718035ec0f7d6c5400b757cff3329-089A8.gif" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="MGHB#6665" data-user-id="687928566922477568" style="">MGHB</span>
+
+
+        <span class="chatlog__timestamp">11-Sep-20 03:56 AM</span>
+
+            <div class="chatlog__message " data-message-id="753931998342676500" id="message-753931998342676500">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace"><img class="emoji emoji--large" alt="🇹🇷" title="🇹🇷" src="https://twemoji.maxcdn.com/2/72x72/1f1f9-1f1f7.png"> <img class="emoji emoji--large" alt="🇹🇷" title="🇹🇷" src="https://twemoji.maxcdn.com/2/72x72/1f1f9-1f1f7.png"></span>
+
+                        </div>
+                    </div>
+
+
+
+                    <div class="chatlog__reactions">
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#128077;" title="&#128077;" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/1f44d-1485B.png">
+                                <span class="chatlog__reaction-count">1</span>
+                            </div>
+                    </div>
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/1e9925a2057118cc3e0dce796e6143d4-62E8C.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="すろう#7500" data-user-id="442303135268995072" style="">すろう</span>
+
+
+        <span class="chatlog__timestamp">11-Sep-20 04:07 AM</span>
+
+            <div class="chatlog__message " data-message-id="753934673125703752" id="message-753934673125703752">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace"><img class="emoji emoji--large" alt="🇯🇵" title="🇯🇵" src="https://twemoji.maxcdn.com/2/72x72/1f1ef-1f1f5.png"><img class="emoji emoji--large" alt="🇯🇵" title="🇯🇵" src="https://twemoji.maxcdn.com/2/72x72/1f1ef-1f1f5.png"></span>
+
+                        </div>
+                    </div>
+
+
+
+                    <div class="chatlog__reactions">
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#128077;" title="&#128077;" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/1f44d-1485B.png">
+                                <span class="chatlog__reaction-count">1</span>
+                            </div>
+                    </div>
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/16d0f430b1ecb1cd2b505f63adc685f5-A1FD2.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="たにし#7263" data-user-id="644914679268900885" style="">Tanishy</span>
+
+
+        <span class="chatlog__timestamp">11-Sep-20 08:47 AM</span>
+
+            <div class="chatlog__message " data-message-id="754005330232606791" id="message-754005330232606791">
+
+                    <div class="chatlog__attachment">
+                        <div class="" onclick="">
+                            <div class="">
+                                    <a href="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/Screenshot_20200911-223133-D47E5.png">
+                                        <img class="chatlog__attachment-thumbnail" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/Screenshot_20200911-223133-D47E5.png" alt="Image attachment" title="Image: Screenshot_20200911-223133.png (670.46 KB)">
+                                    </a>
+                            </div>
+                        </div>
+                    </div>
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="754005338168229900" id="message-754005338168229900">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">そういえば8000000</span>
+
+                        </div>
+                    </div>
+
+
+
+                    <div class="chatlog__reactions">
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="win" title="win" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/740670375150616738-B2F47.png">
+                                <span class="chatlog__reaction-count">1</span>
+                            </div>
+                    </div>
+            </div>
+            <div class="chatlog__message " data-message-id="754005489414701146" id="message-754005489414701146">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace"><img class="emoji emoji--large" alt="MBnofun" title="MBnofun" src="https://cdn.discordapp.com/emojis/732404082085593168.png"></span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/a_8ce718035ec0f7d6c5400b757cff3329-089A8.gif" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="MGHB#6665" data-user-id="687928566922477568" style="">MGHB</span>
+
+
+        <span class="chatlog__timestamp">11-Sep-20 08:48 AM</span>
+
+            <div class="chatlog__message " data-message-id="754005542673842177" id="message-754005542673842177">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace"><img class="emoji emoji--large" alt="_6" title="_6" src="https://cdn.discordapp.com/emojis/593756035328770051.png"> <img class="emoji emoji--large" alt="_6" title="_6" src="https://cdn.discordapp.com/emojis/593756035328770051.png"></span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/16d0f430b1ecb1cd2b505f63adc685f5-A1FD2.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="たにし#7263" data-user-id="644914679268900885" style="">Tanishy</span>
+
+
+        <span class="chatlog__timestamp">11-Sep-20 08:48 AM</span>
+
+            <div class="chatlog__message " data-message-id="754005567814631566" id="message-754005567814631566">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace"><img class="emoji emoji--large" alt="superpalm" title="superpalm" src="https://cdn.discordapp.com/emojis/664498177445199882.png"> <img class="emoji emoji--large" alt="superpalm" title="superpalm" src="https://cdn.discordapp.com/emojis/664498177445199882.png"> <img class="emoji emoji--large" alt="superpalm" title="superpalm" src="https://cdn.discordapp.com/emojis/664498177445199882.png"> <img class="emoji emoji--large" alt="superpalm" title="superpalm" src="https://cdn.discordapp.com/emojis/664498177445199882.png"> <img class="emoji emoji--large" alt="superpalm" title="superpalm" src="https://cdn.discordapp.com/emojis/664498177445199882.png"> <img class="emoji emoji--large" alt="superpalm" title="superpalm" src="https://cdn.discordapp.com/emojis/664498177445199882.png"> <img class="emoji emoji--large" alt="superpalm" title="superpalm" src="https://cdn.discordapp.com/emojis/664498177445199882.png"> <img class="emoji emoji--large" alt="superpalm" title="superpalm" src="https://cdn.discordapp.com/emojis/664498177445199882.png"> <img class="emoji emoji--large" alt="superpalm" title="superpalm" src="https://cdn.discordapp.com/emojis/664498177445199882.png"> <img class="emoji emoji--large" alt="superpalm" title="superpalm" src="https://cdn.discordapp.com/emojis/664498177445199882.png"> <img class="emoji emoji--large" alt="superpalm" title="superpalm" src="https://cdn.discordapp.com/emojis/664498177445199882.png"> <img class="emoji emoji--large" alt="superpalm" title="superpalm" src="https://cdn.discordapp.com/emojis/664498177445199882.png"> <img class="emoji emoji--large" alt="superpalm" title="superpalm" src="https://cdn.discordapp.com/emojis/664498177445199882.png"> <img class="emoji emoji--large" alt="superpalm" title="superpalm" src="https://cdn.discordapp.com/emojis/664498177445199882.png"> <img class="emoji emoji--large" alt="superpalm" title="superpalm" src="https://cdn.discordapp.com/emojis/664498177445199882.png"> <img class="emoji emoji--large" alt="superpalm" title="superpalm" src="https://cdn.discordapp.com/emojis/664498177445199882.png"></span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/a_8ce718035ec0f7d6c5400b757cff3329-089A8.gif" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="MGHB#6665" data-user-id="687928566922477568" style="">MGHB</span>
+
+
+        <span class="chatlog__timestamp">11-Sep-20 08:49 AM</span>
+
+            <div class="chatlog__message " data-message-id="754005589046329386" id="message-754005589046329386">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace"><img class="emoji " alt="🤦" title="🤦" src="https://twemoji.maxcdn.com/2/72x72/1f926.png">‍♂️</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="754005616774873196" id="message-754005616774873196">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace"><img class="emoji emoji--large" alt="antidab" title="antidab" src="https://cdn.discordapp.com/emojis/664498176648282133.png"> <img class="emoji emoji--large" alt="antidab" title="antidab" src="https://cdn.discordapp.com/emojis/664498176648282133.png"></span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="754005632402718802" id="message-754005632402718802">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace"><img class="emoji emoji--large" alt="golfygiggle" title="golfygiggle" src="https://cdn.discordapp.com/emojis/664156597253046362.png"></span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/16d0f430b1ecb1cd2b505f63adc685f5-A1FD2.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="たにし#7263" data-user-id="644914679268900885" style="">Tanishy</span>
+
+
+        <span class="chatlog__timestamp">11-Sep-20 08:49 AM</span>
+
+            <div class="chatlog__message " data-message-id="754005696307134655" id="message-754005696307134655">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace"><img class="emoji emoji--large" alt="🥳" title="🥳" src="https://twemoji.maxcdn.com/2/72x72/1f973.png"></span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/1e9925a2057118cc3e0dce796e6143d4-62E8C.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="すろう#7500" data-user-id="442303135268995072" style="">すろう</span>
+
+
+        <span class="chatlog__timestamp">11-Sep-20 08:50 AM</span>
+
+            <div class="chatlog__message " data-message-id="754005893787418696" id="message-754005893787418696">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">⑧⓪⓪</span>
+
+                                <span class="chatlog__edited-timestamp" title="11-Sep-20 08:50 AM">(edited)</span>
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/16d0f430b1ecb1cd2b505f63adc685f5-A1FD2.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="たにし#7263" data-user-id="644914679268900885" style="">Tanishy</span>
+
+
+        <span class="chatlog__timestamp">11-Sep-20 08:51 AM</span>
+
+            <div class="chatlog__message " data-message-id="754006199640391740" id="message-754006199640391740">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">1000は不可能と察してですね</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/1e9925a2057118cc3e0dce796e6143d4-62E8C.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="すろう#7500" data-user-id="442303135268995072" style="">すろう</span>
+
+
+        <span class="chatlog__timestamp">11-Sep-20 08:55 AM</span>
+
+            <div class="chatlog__message " data-message-id="754007100161523846" id="message-754007100161523846">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">最近日本勢ちょくちょく1000超え出てるからいけるいける</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/16d0f430b1ecb1cd2b505f63adc685f5-A1FD2.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="たにし#7263" data-user-id="644914679268900885" style="">Tanishy</span>
+
+
+        <span class="chatlog__timestamp">11-Sep-20 06:52 PM</span>
+
+            <div class="chatlog__message " data-message-id="754157410309898300" id="message-754157410309898300">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">meebaさんとの勝率0%だからﾑﾘ</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/2-ADBB4.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Chocolate Hunter#1162" data-user-id="573797371285340180" style="">Chocolate Hunter</span>
+
+
+        <span class="chatlog__timestamp">17-Sep-20 10:45 AM</span>
+
+            <div class="chatlog__message " data-message-id="756209175649976421" id="message-756209175649976421">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">皆さまシーズン3お疲れ様でした、1000の壁は越えられませんでした<img class="emoji " alt="😭" title="😭" src="https://twemoji.maxcdn.com/2/72x72/1f62d.png"></span>
+
+                        </div>
+                    </div>
+
+                    <div class="chatlog__attachment">
+                        <div class="" onclick="">
+                            <div class="">
+                                    <a href="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/image0-C4D69.png">
+                                        <img class="chatlog__attachment-thumbnail" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/image0-C4D69.png" alt="Image attachment" title="Image: image0.png (582.64 KB)">
+                                    </a>
+                            </div>
+                        </div>
+                    </div>
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/1e9925a2057118cc3e0dce796e6143d4-62E8C.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="すろう#7500" data-user-id="442303135268995072" style="">すろう</span>
+
+
+        <span class="chatlog__timestamp">17-Sep-20 02:09 PM</span>
+
+            <div class="chatlog__message " data-message-id="756260638111563978" id="message-756260638111563978">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace"><span class="mention" title="Chocolate Hunter#1162">@Chocolate Hunter</span> お疲れ様でした！</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="756260779245699182" id="message-756260779245699182">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">レベル1で縛ると1000以上相手だと厳しいですよね</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="756262507290689636" id="message-756262507290689636">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">バイトとシーズン終わりが重なって諦めてましたがグロワンでした<img class="emoji " alt="🥳" title="🥳" src="https://twemoji.maxcdn.com/2/72x72/1f973.png">
+これからもぼちぼちやっていきます</span>
+
+                        </div>
+                    </div>
+
+                    <div class="chatlog__attachment">
+                        <div class="" onclick="">
+                            <div class="">
+                                    <a href="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/image0-6F6F2.png">
+                                        <img class="chatlog__attachment-thumbnail" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/image0-6F6F2.png" alt="Image attachment" title="Image: image0.png (1.43 MB)">
+                                    </a>
+                            </div>
+                        </div>
+                    </div>
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/16d0f430b1ecb1cd2b505f63adc685f5-A1FD2.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="たにし#7263" data-user-id="644914679268900885" style="">Tanishy</span>
+
+
+        <span class="chatlog__timestamp">17-Sep-20 02:46 PM</span>
+
+            <div class="chatlog__message " data-message-id="756269920395722873" id="message-756269920395722873">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">MotorMasterおめでとうございます</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/1e9925a2057118cc3e0dce796e6143d4-62E8C.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="すろう#7500" data-user-id="442303135268995072" style="">すろう</span>
+
+
+        <span class="chatlog__timestamp">17-Sep-20 02:49 PM</span>
+
+            <div class="chatlog__message " data-message-id="756270714176405556" id="message-756270714176405556">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">(｀・∀・)ﾉｲｪ-ｲ！</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/16d0f430b1ecb1cd2b505f63adc685f5-A1FD2.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="たにし#7263" data-user-id="644914679268900885" style="">Tanishy</span>
+
+
+        <span class="chatlog__timestamp">17-Sep-20 03:02 PM</span>
+
+            <div class="chatlog__message " data-message-id="756273792137035899" id="message-756273792137035899">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">japan no1さんえげつなすぎる</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/2-ADBB4.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Chocolate Hunter#1162" data-user-id="573797371285340180" style="">Chocolate Hunter</span>
+
+
+        <span class="chatlog__timestamp">17-Sep-20 07:49 PM</span>
+
+            <div class="chatlog__message " data-message-id="756346111387631738" id="message-756346111387631738">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace"><span class="mention" title="すろう#7500">@すろう</span> ありです、そしてグロ1おめです<img class="emoji " alt="☺" title="☺" src="https://twemoji.maxcdn.com/2/72x72/263a.png">️</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="756346213284184125" id="message-756346213284184125">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">今シーズンからはガンガンレベル上げしていこうと考えてます</span>
+
+                        </div>
+                    </div>
+
+
+
+                    <div class="chatlog__reactions">
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="arrowup" title="arrowup" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/664494345965273149-16F48.png">
+                                <span class="chatlog__reaction-count">1</span>
+                            </div>
+                    </div>
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/194b67ff177f5c51808862c9700b1fb1-DFB3C.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="りんくれは#2366" data-user-id="437546376805482496" style="">Over the period</span>
+
+
+        <span class="chatlog__timestamp">05-Oct-20 07:15 PM</span>
+
+            <div class="chatlog__message " data-message-id="762860637876387849" id="message-762860637876387849">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">よろしくお願いします</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="762860693627338753" id="message-762860693627338753">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">おーばーざぴりおどと申します</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/1e9925a2057118cc3e0dce796e6143d4-62E8C.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="すろう#7500" data-user-id="442303135268995072" style="">すろう</span>
+
+
+        <span class="chatlog__timestamp">06-Oct-20 02:28 AM</span>
+
+            <div class="chatlog__message " data-message-id="762969481437511680" id="message-762969481437511680">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">よろしくお願い致します</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/351a9f58f9eec8c2376283a0bc08f81d-77648.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="りゎむに#0867" data-user-id="348486202908737536" style="">Celestial Axes</span>
+
+
+        <span class="chatlog__timestamp">06-Oct-20 02:30 AM</span>
+
+            <div class="chatlog__message " data-message-id="762969958807240704" id="message-762969958807240704">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">よろしくお願いします</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/16d0f430b1ecb1cd2b505f63adc685f5-A1FD2.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="たにし#7263" data-user-id="644914679268900885" style="">Tanishy</span>
+
+
+        <span class="chatlog__timestamp">07-Oct-20 02:55 PM</span>
+
+            <div class="chatlog__message " data-message-id="763519990237888532" id="message-763519990237888532">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">トロになってて草</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/1e9925a2057118cc3e0dce796e6143d4-62E8C.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="すろう#7500" data-user-id="442303135268995072" style="">すろう</span>
+
+
+        <span class="chatlog__timestamp">07-Oct-20 04:54 PM</span>
+
+            <div class="chatlog__message " data-message-id="763549787621687326" id="message-763549787621687326">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">わかる</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/194b67ff177f5c51808862c9700b1fb1-DFB3C.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="りんくれは#2366" data-user-id="437546376805482496" style="">Over the period</span>
+
+
+        <span class="chatlog__timestamp">07-Oct-20 05:01 PM</span>
+
+            <div class="chatlog__message " data-message-id="763551630574354475" id="message-763551630574354475">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">わかる</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/194b67ff177f5c51808862c9700b1fb1-DFB3C.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="りんくれは#2366" data-user-id="437546376805482496" style="">Over the period</span>
+
+
+        <span class="chatlog__timestamp">08-Oct-20 02:31 AM</span>
+
+            <div class="chatlog__message " data-message-id="763695023631237120" id="message-763695023631237120">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Shinzo Abe…… <img class="emoji " alt="🙂" title="🙂" src="https://twemoji.maxcdn.com/2/72x72/1f642.png"></span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="763695073359036446" id="message-763695073359036446">
+
+                    <div class="chatlog__attachment">
+                        <div class="" onclick="">
+                            <div class="">
+                                    <a href="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/image0-6F245.png">
+                                        <img class="chatlog__attachment-thumbnail" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/image0-6F245.png" alt="Image attachment" title="Image: image0.png (863.94 KB)">
+                                    </a>
+                            </div>
+                        </div>
+                    </div>
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/1e9925a2057118cc3e0dce796e6143d4-62E8C.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="すろう#7500" data-user-id="442303135268995072" style="">すろう</span>
+
+
+        <span class="chatlog__timestamp">08-Oct-20 03:55 AM</span>
+
+            <div class="chatlog__message " data-message-id="763716282700136448" id="message-763716282700136448">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">小池百合子さん居なくなってて泣きました</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/194b67ff177f5c51808862c9700b1fb1-DFB3C.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="りんくれは#2366" data-user-id="437546376805482496" style="">Over the period</span>
+
+
+        <span class="chatlog__timestamp">08-Oct-20 07:03 AM</span>
+
+            <div class="chatlog__message " data-message-id="763763535112044564" id="message-763763535112044564">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">泣きました、私は小池百合子を愛していました…</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/234f5b5a928212ad9a74f11e9e09eba6-4C027.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="cg#6834" data-user-id="708820803168501831" style="">cg</span>
+
+
+        <span class="chatlog__timestamp">12-Oct-20 07:03 AM</span>
+
+            <div class="chatlog__message " data-message-id="765213057596915755" id="message-765213057596915755">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">大家好( ^_^)／</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="765213294239023114" id="message-765213294239023114">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">車両の品質は何のデータにも影響しないだろう？</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/1e9925a2057118cc3e0dce796e6143d4-62E8C.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="すろう#7500" data-user-id="442303135268995072" style="">すろう</span>
+
+
+        <span class="chatlog__timestamp">12-Oct-20 09:36 AM</span>
+
+            <div class="chatlog__message " data-message-id="765251668345880627" id="message-765251668345880627">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">是</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/234f5b5a928212ad9a74f11e9e09eba6-4C027.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="cg#6834" data-user-id="708820803168501831" style="">cg</span>
+
+
+        <span class="chatlog__timestamp">12-Oct-20 10:20 PM</span>
+
+            <div class="chatlog__message " data-message-id="765443708426387466" id="message-765443708426387466">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace"><img class="emoji " alt="👋" title="👋" src="https://twemoji.maxcdn.com/2/72x72/1f44b.png"> <img class="emoji " alt="👯" title="👯" src="https://twemoji.maxcdn.com/2/72x72/1f46f.png">‍♂️</span>
+
+                        </div>
+                    </div>
+
+
+
+                    <div class="chatlog__reactions">
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#128053;" title="&#128053;" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/1f435-02C15.png">
+                                <span class="chatlog__reaction-count">1</span>
+                            </div>
+                    </div>
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/16d0f430b1ecb1cd2b505f63adc685f5-A1FD2.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="たにし#7263" data-user-id="644914679268900885" style="">Tanishy</span>
+
+
+        <span class="chatlog__timestamp">19-Oct-20 02:53 PM</span>
+
+            <div class="chatlog__message " data-message-id="767868079916056640" id="message-767868079916056640">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">今回のアプデで全員Lv12になるってマジ？</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/72ab213accf918c39c417a3fcaabdfad-4FA91.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="vadmey#4775" data-user-id="349367154732302338" style="">vadmey</span>
+
+
+        <span class="chatlog__timestamp">20-Oct-20 01:03 PM</span>
+
+            <div class="chatlog__message " data-message-id="768202659500785685" id="message-768202659500785685">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">そんなわけないでしょw</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/16d0f430b1ecb1cd2b505f63adc685f5-A1FD2.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="たにし#7263" data-user-id="644914679268900885" style="">Tanishy</span>
+
+
+        <span class="chatlog__timestamp">20-Oct-20 03:20 PM</span>
+
+            <div class="chatlog__message " data-message-id="768237180194783235" id="message-768237180194783235">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">ステータス均一化って聞いた</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="768237234876841995" id="message-768237234876841995">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">あとアイテムも全員全部</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/1e9925a2057118cc3e0dce796e6143d4-62E8C.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="すろう#7500" data-user-id="442303135268995072" style="">すろう</span>
+
+
+        <span class="chatlog__timestamp">21-Oct-20 05:36 PM</span>
+
+            <div class="chatlog__message " data-message-id="768633789873913906" id="message-768633789873913906">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">噂を聞き付けて戻ってきたけどガチで笑った</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="768633897633841202" id="message-768633897633841202">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">課金した人可哀想すぎるだろ</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/72ab213accf918c39c417a3fcaabdfad-4FA91.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="vadmey#4775" data-user-id="349367154732302338" style="">vadmey</span>
+
+
+        <span class="chatlog__timestamp">26-Oct-20 07:51 AM</span>
+
+            <div class="chatlog__message " data-message-id="770298559793856572" id="message-770298559793856572">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">え？じゃあマジで皆Lv１２になるの？</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="770300077955612673" id="message-770300077955612673">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">本当だ。。。だけどレベルアップできなくなったらゲームやってる意味がなくなっちゃう気がする</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/1e9925a2057118cc3e0dce796e6143d4-62E8C.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="すろう#7500" data-user-id="442303135268995072" style="">すろう</span>
+
+
+        <span class="chatlog__timestamp">26-Oct-20 05:27 PM</span>
+
+            <div class="chatlog__message " data-message-id="770443567575334993" id="message-770443567575334993">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">本当にソレすぎる  目的が無くなってしまう</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/11e4d792b02199dfbedf2cc681428d86-769AB.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Merrikel#4064" data-user-id="766529382650609705" style="">merrick  (☆m0nk☆)</span>
+
+
+        <span class="chatlog__timestamp">28-Oct-20 04:55 PM</span>
+
+            <div class="chatlog__message " data-message-id="771160142573600779" id="message-771160142573600779">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Facts</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/1e9925a2057118cc3e0dce796e6143d4-62E8C.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="すろう#7500" data-user-id="442303135268995072" style="">すろう</span>
+
+
+        <span class="chatlog__timestamp">28-Oct-20 07:54 PM</span>
+
+            <div class="chatlog__message " data-message-id="771205358571356162" id="message-771205358571356162">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace"><img class="emoji emoji--large" alt="😩" title="😩" src="https://twemoji.maxcdn.com/2/72x72/1f629.png"></span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/53b306cf8c8e78178d2be7c2f6b9c9d6-16B1B.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="SNK#5467" data-user-id="690595848463187998" style="">SNK</span>
+
+
+        <span class="chatlog__timestamp">28-Oct-20 08:37 PM</span>
+
+            <div class="chatlog__message " data-message-id="771216180588576769" id="message-771216180588576769">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace"><span class="mention" title="vadmey#4775">@vadmey</span> just continue to play... next season stuff really balances out with the new update.</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+        <div class="chatlog__reference-symbol">
+        </div>
+        <div class="chatlog__reference">
+                <img class="chatlog__reference-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/53b306cf8c8e78178d2be7c2f6b9c9d6-16B1B.png" alt="Avatar">
+                <span class="chatlog__reference-name" title="SNK#5467" style="">SNK</span>
+                <a class="chatlog__reference-link" href="#" onclick="scrollToMessage(event, &#39;771216180588576769&#39;)">
+                    <span class="chatlog__reference-content">
+<span class="mention" title="vadmey#4775">@vadmey</span> just continue to play... next season stuff really balances out with the new update.                    </span>
+
+                </a>
+        </div>
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/11e4d792b02199dfbedf2cc681428d86-769AB.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Merrikel#4064" data-user-id="766529382650609705" style="">merrick  (☆m0nk☆)</span>
+
+
+        <span class="chatlog__timestamp">28-Jan-21 09:07 PM</span>
+
+            <div class="chatlog__message " data-message-id="804563372317736990" id="message-804563372317736990">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Lol</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="804563441851301929" id="message-804563441851301929">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">His last words</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/16d0f430b1ecb1cd2b505f63adc685f5-A1FD2.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="たにし#7263" data-user-id="644914679268900885" style="">Tanishy</span>
+
+
+        <span class="chatlog__timestamp">02-Feb-21 08:57 AM</span>
+
+            <div class="chatlog__message " data-message-id="806191502198833212" id="message-806191502198833212">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace"><img class="emoji emoji--large" alt="4b_thumbsup" title="4b_thumbsup" src="https://cdn.discordapp.com/emojis/777117082835353611.png"> <img class="emoji emoji--large" alt="4b_thumbsdown" title="4b_thumbsdown" src="https://cdn.discordapp.com/emojis/777117082881884181.png"></span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/4b37f9da3f0e7244dac85a967931cca0-3D90C.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="sly☻#8124" data-user-id="560271507956170772" style="color: rgb(105,76,208)">sly☻</span>
+
+
+        <span class="chatlog__timestamp">02-Feb-21 08:57 AM</span>
+
+            <div class="chatlog__message " data-message-id="806191577767608380" id="message-806191577767608380">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace"><img class="emoji emoji--large" alt="4c_rrowup" title="4c_rrowup" src="https://cdn.discordapp.com/emojis/664494345965273149.png"> <img class="emoji emoji--large" alt="4c_arrowdown" title="4c_arrowdown" src="https://cdn.discordapp.com/emojis/664494402273542145.png"></span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/16d0f430b1ecb1cd2b505f63adc685f5-A1FD2.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="たにし#7263" data-user-id="644914679268900885" style="">Tanishy</span>
+
+
+        <span class="chatlog__timestamp">02-Feb-21 08:58 AM</span>
+
+            <div class="chatlog__message " data-message-id="806191918513913856" id="message-806191918513913856">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace"><img class="emoji emoji--large" alt="4a_win" title="4a_win" src="https://cdn.discordapp.com/emojis/740670375150616738.png"> <img class="emoji emoji--large" alt="4a_loss" title="4a_loss" src="https://cdn.discordapp.com/emojis/740670395446984754.png"></span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/11e4d792b02199dfbedf2cc681428d86-769AB.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Merrikel#4064" data-user-id="766529382650609705" style="">merrick  (☆m0nk☆)</span>
+
+
+        <span class="chatlog__timestamp">02-Feb-21 09:47 AM</span>
+
+            <div class="chatlog__message " data-message-id="806204048734552115" id="message-806204048734552115">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace"><img class="emoji emoji--large" alt="☻" title="☻" src="https://twemoji.maxcdn.com/2/72x72/263b.png"></span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/16d0f430b1ecb1cd2b505f63adc685f5-A1FD2.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="たにし#7263" data-user-id="644914679268900885" style="">Tanishy</span>
+
+
+        <span class="chatlog__timestamp">03-Feb-21 02:49 PM</span>
+
+            <div class="chatlog__message " data-message-id="806642525578067978" id="message-806642525578067978">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace"><img class="emoji " alt="🈂" title="🈂" src="https://twemoji.maxcdn.com/2/72x72/1f202.png">️</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/3c858d0ead225281127c3cef7c60c517-9A79F.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="GamingSpiral#0399" data-user-id="663465357520011295" style="color: rgb(105,76,208)">GamingSpiral</span>
+
+
+        <span class="chatlog__timestamp">03-Feb-21 02:50 PM</span>
+
+            <div class="chatlog__message " data-message-id="806642727331692625" id="message-806642727331692625">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Rip</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/898b49a17e69f3aba6c54f44d40af24a-7881B.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="&#120237;&#120234;.&#120811;&#120810;#0032" data-user-id="316876843204608002" style="color: rgb(241,196,15)">&#120237;&#120234;.&#120811;&#120810;</span>
+
+
+        <span class="chatlog__timestamp">03-Feb-21 07:59 PM</span>
+
+            <div class="chatlog__message " data-message-id="806720643236102195" id="message-806720643236102195">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">サ終</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/351a9f58f9eec8c2376283a0bc08f81d-77648.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="りゎむに#0867" data-user-id="348486202908737536" style="">Celestial Axes</span>
+
+
+        <span class="chatlog__timestamp">05-Feb-21 02:33 AM</span>
+
+            <div class="chatlog__message " data-message-id="807182144455049246" id="message-807182144455049246">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Nobody game</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/1e9925a2057118cc3e0dce796e6143d4-62E8C.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="すろう#7500" data-user-id="442303135268995072" style="">すろう</span>
+
+
+        <span class="chatlog__timestamp">15-Feb-21 08:57 PM</span>
+
+            <div class="chatlog__message " data-message-id="811083775173722152" id="message-811083775173722152">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace"><img class="emoji " alt="🈂" title="🈂" src="https://twemoji.maxcdn.com/2/72x72/1f202.png">️</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="811083818189455370" id="message-811083818189455370">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">yeah</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/046719c22ac31bbe1c547a1bb164e3ed-F2216.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Risk#9173" data-user-id="723293716738998272" style="color: rgb(67,200,5)">Risk</span>
+
+
+        <span class="chatlog__timestamp">17-Feb-21 07:27 PM</span>
+
+            <div class="chatlog__message " data-message-id="811785929768828949" id="message-811785929768828949">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace"><img class="emoji emoji--large" alt="7_cry" title="7_cry" src="https://cdn.discordapp.com/emojis/777127417445613608.png"></span>
+
+                        </div>
+                    </div>
+
+
+
+                    <div class="chatlog__reactions">
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="7_1facepalm" title="7_1facepalm" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/779441635628679268-E6DFF.png">
+                                <span class="chatlog__reaction-count">1</span>
+                            </div>
+                    </div>
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/1e9925a2057118cc3e0dce796e6143d4-62E8C.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="すろう#7500" data-user-id="442303135268995072" style="">すろう</span>
+
+
+        <span class="chatlog__timestamp">18-Feb-21 06:41 AM</span>
+
+            <div class="chatlog__message " data-message-id="811955632856891402" id="message-811955632856891402">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace"><img class="emoji emoji--large" alt="😩" title="😩" src="https://twemoji.maxcdn.com/2/72x72/1f629.png"></span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/5c7dcb6491e880559e7625b18c36f851-131F0.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="MindOfRime#6918" data-user-id="289244253849124864" style="">MindOfRime</span>
+
+
+        <span class="chatlog__timestamp">19-Feb-21 01:37 AM</span>
+
+            <div class="chatlog__message " data-message-id="812241466188759040" id="message-812241466188759040">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace"><img class="emoji emoji--large" alt="😕" title="😕" src="https://twemoji.maxcdn.com/2/72x72/1f615.png"></span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20Non-English%20Community%20Chat%20-%20%E6%97%A5%E6%9C%AC%E8%AA%9E-chat%20%5B742278591240208434%5D.html_Files/3c858d0ead225281127c3cef7c60c517-9A79F.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="GamingSpiral#0399" data-user-id="663465357520011295" style="color: rgb(105,76,208)">GamingSpiral</span>
+
+
+        <span class="chatlog__timestamp">19-Feb-21 05:58 AM</span>
+
+            <div class="chatlog__message " data-message-id="812307226802520064" id="message-812307226802520064">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace"><img class="emoji emoji--large" alt="😭" title="😭" src="https://twemoji.maxcdn.com/2/72x72/1f62d.png"></span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+</div>
+
+<div class="postamble">
+    <div class="postamble__entry">Exported 159 message(s)</div>
+</div>
+
+</body>
+
+</html>

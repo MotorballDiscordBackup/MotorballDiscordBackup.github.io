@@ -1,0 +1,2782 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Motorball - announcements</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+
+    <style>
+        /* General */
+
+@font-face {
+    font-family: Whitney;
+    src: url(https://cdn.jsdelivr.net/gh/Tyrrrz/DiscordFonts@master/whitney-300.woff);
+    font-weight: 300;
+}
+
+@font-face {
+    font-family: Whitney;
+    src: url(https://cdn.jsdelivr.net/gh/Tyrrrz/DiscordFonts@master/whitney-400.woff);
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: Whitney;
+    src: url(https://cdn.jsdelivr.net/gh/Tyrrrz/DiscordFonts@master/whitney-500.woff);
+    font-weight: 500;
+}
+
+@font-face {
+    font-family: Whitney;
+    src: url(https://cdn.jsdelivr.net/gh/Tyrrrz/DiscordFonts@master/whitney-600.woff);
+    font-weight: 600;
+}
+
+@font-face {
+    font-family: Whitney;
+    src: url(https://cdn.jsdelivr.net/gh/Tyrrrz/DiscordFonts@master/whitney-700.woff);
+    font-weight: 700;
+}
+
+body {
+    font-family: "Whitney", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 17px;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+img {
+    object-fit: contain;
+}
+
+.markdown {
+    max-width: 100%;
+    line-height: 1.3;
+    overflow-wrap: break-word;
+}
+
+.preserve-whitespace {
+    white-space: pre-wrap;
+}
+
+.spoiler {
+    /* width: fit-content; */
+    display: inline-block;
+    /* This is more consistent across browsers, the old attribute worked well under Chrome but not FireFox. */
+}
+
+.spoiler--hidden {
+    cursor: pointer;
+}
+
+.spoiler-text {
+    border-radius: 3px;
+}
+
+.spoiler--hidden .spoiler-text {
+    color: rgba(0, 0, 0, 0);
+}
+
+.spoiler--hidden .spoiler-text::selection {
+    color: rgba(0, 0, 0, 0);
+}
+
+.spoiler-image {
+    position: relative;
+    overflow: hidden;
+    border-radius: 3px;
+}
+
+.spoiler--hidden .spoiler-image {
+    box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.1);
+}
+
+.spoiler--hidden .spoiler-image * {
+    filter: blur(44px);
+}
+
+.spoiler--hidden .spoiler-image:after {
+    content: "SPOILER";
+    color: #dcddde;
+    background-color: rgba(0, 0, 0, 0.6);
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-weight: 600;
+    padding: 100%;
+    border-radius: 20px;
+    letter-spacing: 0.05em;
+    font-size: 0.9em;
+}
+
+.spoiler--hidden:hover .spoiler-image:after {
+    color: #fff;
+    background-color: rgba(0, 0, 0, 0.9);
+}
+
+.quote {
+    margin: 0.1em 0;
+    padding-left: 0.6em;
+    border-left: 4px solid;
+    border-radius: 3px;
+}
+
+.pre {
+    font-family: "Consolas", "Courier New", Courier, monospace;
+}
+
+.pre--multiline {
+    margin-top: 0.25em;
+    padding: 0.5em;
+    border: 2px solid;
+    border-radius: 5px;
+}
+
+.pre--inline {
+    padding: 2px;
+    border-radius: 3px;
+    font-size: 0.85em;
+}
+
+.mention {
+    border-radius: 3px;
+    padding: 0 2px;
+    color: #7289da;
+    background: rgba(114, 137, 218, .1);
+    font-weight: 500;
+}
+
+.emoji {
+    width: 1.25em;
+    height: 1.25em;
+    margin: 0 0.06em;
+    vertical-align: -0.4em;
+}
+
+.emoji--small {
+    width: 1em;
+    height: 1em;
+}
+
+.emoji--large {
+    width: 2.8em;
+    height: 2.8em;
+}
+
+/* Preamble */
+
+.preamble {
+    display: grid;
+    margin: 0 0.3em 0.6em 0.3em;
+    max-width: 100%;
+    grid-template-columns: auto 1fr;
+}
+
+.preamble__guild-icon-container {
+    grid-column: 1;
+}
+
+.preamble__guild-icon {
+    max-width: 88px;
+    max-height: 88px;
+}
+
+.preamble__entries-container {
+    grid-column: 2;
+    margin-left: 0.6em;
+}
+
+.preamble__entry {
+    font-size: 1.4em;
+}
+
+.preamble__entry--small {
+    font-size: 1em;
+}
+
+/* Chatlog */
+
+.chatlog {
+    max-width: 100%;
+}
+
+.chatlog__message-group {
+    display: grid;
+    margin: 0 0.6em;
+    padding: 0.9em 0;
+    border-top: 1px solid;
+    grid-template-columns: auto 1fr;
+}
+
+.chatlog__reference-symbol {
+    grid-column: 1;
+    border-style: solid;
+    border-width: 2px 0 0 2px;
+    border-radius: 8px 0 0 0;
+    margin-left: 16px;
+    margin-top: 8px;
+}
+
+.chatlog__reference {
+    display: flex;
+    grid-column: 2;
+    margin-left: 1.2em;
+    margin-bottom: 0.25em;
+    font-size: 0.875em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    align-items: center;
+}
+
+.chatlog__reference-avatar {
+    border-radius: 50%;
+    height: 16px;
+    width: 16px;
+    margin-right: 0.25em;
+}
+
+.chatlog__reference-name {
+    margin-right: 0.25em;
+    font-weight: 600;
+}
+
+.chatlog__reference-link {
+    flex-grow: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.chatlog__reference-link:hover {
+    text-decoration: none;
+}
+
+.chatlog__reference-content > * {
+    display: inline;
+}
+
+.chatlog__reference-edited-timestamp {
+    margin-left: 0.25em;
+    font-size: 0.8em;
+}
+
+.chatlog__author-avatar-container {
+    grid-column: 1;
+    width: 40px;
+    height: 40px;
+}
+
+.chatlog__author-avatar {
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+}
+
+.chatlog__messages {
+    grid-column: 2;
+    margin-left: 1.2em;
+    min-width: 50%;
+}
+
+.chatlog__author-name {
+    font-weight: 500;
+}
+
+.chatlog__timestamp {
+    margin-left: 0.3em;
+    font-size: 0.75em;
+}
+
+.chatlog__message {
+    padding: 0.1em 0.3em;
+    margin: 0 -0.3em;
+    background-color: transparent;
+    transition: background-color 1s ease;
+}
+
+.chatlog__content {
+    font-size: 0.95em;
+    word-wrap: break-word;
+}
+
+.chatlog__edited-timestamp {
+    margin-left: 0.15em;
+    font-size: 0.8em;
+}
+
+.chatlog__attachment {
+    margin-top: 0.3em;
+}
+
+.chatlog__attachment-thumbnail {
+    vertical-align: top;
+    max-width: 45vw;
+    max-height: 500px;
+    border-radius: 3px;
+}
+
+.chatlog__attachment-container {
+    height: 40px;
+    width: 100%;
+    max-width: 520px;
+    padding: 10px;
+    border: 1px solid;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.chatlog__attachment-icon {
+    float: left;
+    height: 100%;
+    margin-right: 10px;
+}
+
+.chatlog__attachment-icon > .a {
+    fill: #f4f5fb;
+    d: path("M50,935a25,25,0,0,1-25-25V50A25,25,0,0,1,50,25H519.6L695,201.32V910a25,25,0,0,1-25,25Z");
+}
+
+.chatlog__attachment-icon > .b {
+    fill: #7789c4;
+    d: path("M509.21,50,670,211.63V910H50V50H509.21M530,0H50A50,50,0,0,0,0,50V910a50,50,0,0,0,50,50H670a50,50,0,0,0,50-50h0V191Z");
+}
+
+.chatlog__attachment-icon > .c {
+    fill: #f4f5fb;
+    d: path("M530,215a25,25,0,0,1-25-25V50a25,25,0,0,1,16.23-23.41L693.41,198.77A25,25,0,0,1,670,215Z");
+}
+
+.chatlog__attachment-icon > .d {
+    fill: #7789c4;
+    d: path("M530,70.71,649.29,190H530V70.71M530,0a50,50,0,0,0-50,50V190a50,50,0,0,0,50,50H670a50,50,0,0,0,50-50Z");
+}
+
+.chatlog__attachment-filesize {
+    color: #72767d;
+    font-size: 12px;
+}
+
+.chatlog__attachment-filename {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.chatlog__embed {
+    display: flex;
+    margin-top: 0.3em;
+    max-width: 520px;
+}
+
+.chatlog__embed-color-pill {
+    flex-shrink: 0;
+    width: 0.25em;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+
+.chatlog__embed-content-container {
+    display: flex;
+    flex-direction: column;
+    padding: 0.5em 0.6em;
+    border: 1px solid;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+
+.chatlog__embed-content {
+    display: flex;
+    width: 100%;
+}
+
+.chatlog__embed-text {
+    flex: 1;
+}
+
+.chatlog__embed-author {
+    display: flex;
+    margin-bottom: 0.3em;
+    align-items: center;
+}
+
+.chatlog__embed-author-icon {
+    margin-right: 0.5em;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+}
+
+.chatlog__embed-author-name {
+    font-size: 0.875em;
+    font-weight: 600;
+}
+
+.chatlog__embed-title {
+    margin-bottom: 0.2em;
+    font-size: 0.875em;
+    font-weight: 600;
+}
+
+.chatlog__embed-description {
+    font-weight: 500;
+    font-size: 0.85em;
+}
+
+.chatlog__embed-fields {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.chatlog__embed-field {
+    flex: 0;
+    min-width: 100%;
+    max-width: 506px;
+    padding-top: 0.6em;
+    font-size: 0.875em;
+}
+
+.chatlog__embed-field--inline {
+    flex: 1;
+    flex-basis: auto;
+    min-width: 150px;
+}
+
+.chatlog__embed-field-name {
+    margin-bottom: 0.2em;
+    font-weight: 600;
+}
+
+.chatlog__embed-field-value {
+    font-weight: 500;
+}
+
+.chatlog__embed-thumbnail {
+    flex: 0;
+    margin-left: 1.2em;
+    max-width: 80px;
+    max-height: 80px;
+    border-radius: 3px;
+}
+
+.chatlog__embed-image-container {
+    margin-top: 0.6em;
+}
+
+.chatlog__embed-image {
+    max-width: 500px;
+    max-height: 400px;
+    border-radius: 3px;
+}
+
+.chatlog__embed-footer {
+    margin-top: 0.6em;
+}
+
+.chatlog__embed-footer-icon {
+    margin-right: 0.2em;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    vertical-align: middle;
+}
+
+.chatlog__embed-footer-text {
+    font-size: 0.75em;
+    font-weight: 500;
+}
+
+.chatlog__reactions {
+    display: flex;
+}
+
+.chatlog__reaction {
+    display: flex;
+    align-items: center;
+    margin: 0.35em 0.1em 0.1em 0.1em;
+    padding: 0.2em 0.35em;
+    border-radius: 3px;
+}
+
+.chatlog__reaction-count {
+    min-width: 9px;
+    margin-left: 0.35em;
+    font-size: 0.875em;
+}
+
+.chatlog__bot-tag {
+    position: relative;
+    top: -.2em;
+    margin-left: 0.3em;
+    padding: 0.05em 0.3em;
+    border-radius: 3px;
+    vertical-align: middle;
+    line-height: 1.3;
+    background: #7289da;
+    color: #ffffff;
+    font-size: 0.625em;
+    font-weight: 500;
+}
+
+/* Postamble */
+
+.postamble {
+    margin: 1.4em 0.3em 0.6em 0.3em;
+    padding: 1em;
+    border-top: 1px solid;
+}
+    </style>
+    <style>
+        /* General */
+
+body {
+    background-color: #36393e;
+    color: #dcddde;
+}
+
+a {
+    color: #0096cf;
+}
+
+.spoiler-text {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.spoiler--hidden .spoiler-text {
+    background-color: #202225;
+}
+
+.spoiler--hidden:hover .spoiler-text {
+    background-color: rgba(32, 34, 37, 0.8);
+}
+
+.quote {
+    border-color: #4f545c;
+}
+
+.pre {
+    background-color: #2f3136 !important;
+}
+
+.pre--multiline {
+    border-color: #282b30 !important;
+    color: #b9bbbe !important;
+}
+
+/* === Preamble === */
+
+.preamble__entry {
+    color: #ffffff;
+}
+
+/* Chatlog */
+
+.chatlog__message-group {
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.chatlog__reference-symbol {
+    border-color: #4f545c;
+}
+
+.chatlog__reference {
+    color: #b5b6b8;
+}
+
+.chatlog__reference-link {
+    color: #b5b6b8;
+}
+
+.chatlog__reference-link:hover {
+    color: #ffffff;
+}
+
+.chatlog__reference-edited-timestamp {
+    color: rgba(255, 255, 255, 0.2);
+}
+
+.chatlog__author-name {
+    color: #ffffff;
+}
+
+.chatlog__timestamp {
+    color: rgba(255, 255, 255, 0.2);
+}
+
+.chatlog__message--highlighted {
+    background-color: rgba(114, 137, 218, 0.2) !important;
+}
+
+.chatlog__message--pinned {
+    background-color: rgba(249, 168, 37, 0.05);
+}
+
+.chatlog__attachment-container {
+    background-color: #2f3136;
+    border-color: #292b2f;
+}
+
+.chatlog__edited-timestamp {
+    color: rgba(255, 255, 255, 0.2);
+}
+
+.chatlog__embed-color-pill--default {
+    background-color: rgba(79, 84, 92, 1);
+}
+
+.chatlog__embed-content-container {
+    background-color: rgba(46, 48, 54, 0.3);
+    border-color: rgba(46, 48, 54, 0.6);
+}
+
+.chatlog__embed-author-name {
+    color: #ffffff;
+}
+
+.chatlog__embed-author-name-link {
+    color: #ffffff;
+}
+
+.chatlog__embed-title {
+    color: #ffffff;
+}
+
+.chatlog__embed-description {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.chatlog__embed-field-name {
+    color: #ffffff;
+}
+
+.chatlog__embed-field-value {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.chatlog__embed-footer {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.chatlog__reaction {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.chatlog__reaction-count {
+    color: rgba(255, 255, 255, 0.3);
+}
+
+/* Postamble */
+
+.postamble {
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.postamble__entry {
+    color: #ffffff;
+}
+    </style>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/solarized-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.pre--multiline').forEach(block => hljs.highlightBlock(block));
+        });
+    </script>
+
+    <script>
+        function scrollToMessage(event, id) {
+            var element = document.getElementById('message-' + id);
+
+            if (element) {
+                event.preventDefault();
+
+                element.classList.add('chatlog__message--highlighted');
+
+                window.scrollTo({
+                    top: element.getBoundingClientRect().top - document.body.getBoundingClientRect().top - (window.innerHeight / 2),
+                    behavior: 'smooth'
+                });
+
+                window.setTimeout(function() {
+                    element.classList.remove('chatlog__message--highlighted');
+                }, 2000);
+            }
+        }
+
+        function showSpoiler(event, element) {
+            if (element && element.classList.contains('spoiler--hidden')) {
+                event.preventDefault();
+                element.classList.remove('spoiler--hidden');
+            }
+        }
+    </script>
+</head>
+<body>
+
+<div class="preamble">
+    <div class="preamble__guild-icon-container">
+        <img class="preamble__guild-icon" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1d332fa4305f49e52a9aa156f46b5ef4-8B3C2.png" alt="Guild icon">
+    </div>
+    <div class="preamble__entries-container">
+        <div class="preamble__entry">Motorball</div>
+        <div class="preamble__entry">ANNOUNCEMENTS / announcements</div>
+
+
+    </div>
+</div>
+
+<div class="chatlog">
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/8d5b8568c014035d1d2164366d4a6b75-B3355.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="NoodlePascal#6854" data-user-id="493892879819997194" style="color: rgb(65,100,255)">NoodlePascal</span>
+
+
+        <span class="chatlog__timestamp">08-Jan-20 08:56 AM</span>
+
+            <div class="chatlog__message " data-message-id="664497698644164608" id="message-664497698644164608">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Hello Ballers!  We have a new multiplayer game in the works, and are looking for beta / alpha testers!  If you&#39;d like to be a part of beta testing for this game please sign up here:  <a href="https://playmotorball.com/">https://playmotorball.com/</a>     We&#39;re going to run a short alpha test in the upcoming weeks to gain some initial feedback on gameplay and general multiplayer stability!</span>
+
+                        </div>
+                    </div>
+
+
+                    <div class="chatlog__embed">
+                            <div class="chatlog__embed-color-pill" style="background-color: rgba(255,255,255,255)"></div>
+
+                        <div class="chatlog__embed-content-container">
+                            <div class="chatlog__embed-content">
+                                <div class="chatlog__embed-text">
+
+                                        <div class="chatlog__embed-title">
+                                                <a class="chatlog__embed-title-link" href="https://playmotorball.com/">
+                                                    <div class="markdown preserve-whitespace">Motorball - Noodlecake Studios Inc.</div>
+                                                </a>
+                                        </div>
+
+                                        <div class="chatlog__embed-description">
+                                            <div class="markdown preserve-whitespace">Welcome to Motorball! Control derpy toy cars and use crazy powerups, race to the net and score to achieve ultimate victory over your friends (and enemies)! #motorball</div>
+                                        </div>
+
+                                </div>
+
+                                    <div class="chatlog__embed-thumbnail-container">
+                                        <a class="chatlog__embed-thumbnail-link" href="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/icon-og-07809.png">
+                                            <img class="chatlog__embed-thumbnail" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/icon-og-07809.png" alt="Thumbnail">
+                                        </a>
+                                    </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                    <div class="chatlog__reactions">
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#128077;" title="&#128077;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f44d-1485B.png">
+                                <span class="chatlog__reaction-count">16</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="golfygiggle" title="golfygiggle" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/664156597253046362-DC51C.png">
+                                <span class="chatlog__reaction-count">11</span>
+                            </div>
+                    </div>
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/26500b363d85d5a86acd481453787593-370D3.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Kay-Lynne#5398" data-user-id="566005547887755274" style="color: rgb(65,100,255)">Kay-Lynne</span>
+
+
+        <span class="chatlog__timestamp">04-Mar-20 09:12 AM</span>
+
+            <div class="chatlog__message " data-message-id="684795524393467923" id="message-684795524393467923">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Hey doods we&#39;re doing an AMA on reddit in an hour (11:00 AM CST) so come ask us your Q&#39;s! Will post the link when it&#39;s live.</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/26500b363d85d5a86acd481453787593-370D3.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Kay-Lynne#5398" data-user-id="566005547887755274" style="color: rgb(65,100,255)">Kay-Lynne</span>
+
+
+        <span class="chatlog__timestamp">04-Mar-20 09:59 AM</span>
+
+            <div class="chatlog__message " data-message-id="684807349294333991" id="message-684807349294333991">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace"><a href="https://www.reddit.com/r/AMA/comments/fdfxxe/we_are_noodlecake_indie_game_developer_behind_the/">https://www.reddit.com/r/AMA/comments/fdfxxe/we_are_noodlecake_indie_game_developer_behind_the/</a> Here&#39;s the link to the AMA!</span>
+
+                        </div>
+                    </div>
+
+
+                    <div class="chatlog__embed">
+                            <div class="chatlog__embed-color-pill" style="background-color: rgba(255,255,255,255)"></div>
+
+                        <div class="chatlog__embed-content-container">
+                            <div class="chatlog__embed-content">
+                                <div class="chatlog__embed-text">
+
+                                        <div class="chatlog__embed-title">
+                                                <a class="chatlog__embed-title-link" href="https://www.reddit.com/r/AMA/comments/fdfxxe/we_are_noodlecake_indie_game_developer_behind_the/">
+                                                    <div class="markdown preserve-whitespace">r/AMA - We are Noodlecake, indie game developer behind the Super St...</div>
+                                                </a>
+                                        </div>
+
+                                        <div class="chatlog__embed-description">
+                                            <div class="markdown preserve-whitespace">0 votes and 0 comments so far on Reddit</div>
+                                        </div>
+
+                                </div>
+
+                                    <div class="chatlog__embed-thumbnail-container">
+                                        <a class="chatlog__embed-thumbnail-link" href="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/0ui1Mv1PM3O867yoY3CUR94LZ0RgiJGx9obxiqMAv--62853.jpg">
+                                            <img class="chatlog__embed-thumbnail" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/0ui1Mv1PM3O867yoY3CUR94LZ0RgiJGx9obxiqMAv--62853.jpg" alt="Thumbnail">
+                                        </a>
+                                    </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/b873c01a1007e8a467e829f7cca43e41-8F5C3.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="noodle_ryan#8251" data-user-id="268489137760370688" style="color: rgb(65,100,255)">noodle_ryan</span>
+
+
+        <span class="chatlog__timestamp">23-Jun-20 10:03 AM</span>
+
+            <div class="chatlog__message " data-message-id="725033208613437500" id="message-725033208613437500">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Hey Ballers! 
+
+Our closed beta is almost here. If you are interested in testing the game on iOS or Android, sign up via the link as soon as possible. The closed beta will begin July 2nd and there are limited spots available. More information on how the beta works will come via email along with installation instructions on the 2nd.
+
+We have been playing in office for the past couple weeks and it has been a blast. We can&#39;t wait for you to try it out too. 
+
+Beta Sign Up - <a href="https://playmotorball.com">https://playmotorball.com</a></span>
+
+                                <span class="chatlog__edited-timestamp" title="23-Jun-20 10:03 AM">(edited)</span>
+                        </div>
+                    </div>
+
+
+                    <div class="chatlog__embed">
+                            <div class="chatlog__embed-color-pill" style="background-color: rgba(255,255,255,255)"></div>
+
+                        <div class="chatlog__embed-content-container">
+                            <div class="chatlog__embed-content">
+                                <div class="chatlog__embed-text">
+
+                                        <div class="chatlog__embed-title">
+                                                <a class="chatlog__embed-title-link" href="https://playmotorball.com/">
+                                                    <div class="markdown preserve-whitespace">Motorball - Noodlecake Studios Inc.</div>
+                                                </a>
+                                        </div>
+
+                                        <div class="chatlog__embed-description">
+                                            <div class="markdown preserve-whitespace">Welcome to Motorball! Control derpy toy cars and use crazy powerups, race to the net and score to achieve ultimate victory over your friends (and enemies)! #motorball</div>
+                                        </div>
+
+                                </div>
+
+                                    <div class="chatlog__embed-thumbnail-container">
+                                        <a class="chatlog__embed-thumbnail-link" href="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/icon-og-07809.png">
+                                            <img class="chatlog__embed-thumbnail" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/icon-og-07809.png" alt="Thumbnail">
+                                        </a>
+                                    </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                    <div class="chatlog__reactions">
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="mbhappy" title="mbhappy" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/700002832669081660-53E8D.png">
+                                <span class="chatlog__reaction-count">21</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="golfygiggle" title="golfygiggle" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/664156597253046362-DC51C.png">
+                                <span class="chatlog__reaction-count">8</span>
+                            </div>
+                    </div>
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/e7504c23a095a8fb4b1233850599b700-6D2D6.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="NoodleyBrett#1889" data-user-id="484810136108662806" style="color: rgb(65,100,255)">NoodleyBrett</span>
+
+
+        <span class="chatlog__timestamp">02-Jul-20 09:58 AM</span>
+
+            <div class="chatlog__message " data-message-id="728293594003275949" id="message-728293594003275949">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace"><span class="mention">@everyone</span> 
+
+Motorball Beta is now live! Please click the link below on the device you would like to play on and follow the instructions! Please report any bugs or crashes and let us know if you have any feedback or suggestions. Thanks and have fun!
+
+<a href="https://noodlecake.games/motorball-beta">https://noodlecake.games/motorball-beta</a></span>
+
+                        </div>
+                    </div>
+
+
+
+                    <div class="chatlog__reactions">
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="❤️" title="❤️" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/2764-18179.png">
+                                <span class="chatlog__reaction-count">22</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="mbimpressed" title="mbimpressed" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/727270607670083664-024A8.png">
+                                <span class="chatlog__reaction-count">9</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="mbhappy" title="mbhappy" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/727270564179214416-B02DE.png">
+                                <span class="chatlog__reaction-count">8</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="mbhappyanim" title="mbhappyanim" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/727273524883882178-7215F.png">
+                                <span class="chatlog__reaction-count">10</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#128077;" title="&#128077;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f44d-1485B.png">
+                                <span class="chatlog__reaction-count">11</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#127476;" title="&#127476;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f1f4-6C4DE.png">
+                                <span class="chatlog__reaction-count">2</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#129398;" title="&#129398;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f976-AB812.png">
+                                <span class="chatlog__reaction-count">1</span>
+                            </div>
+                    </div>
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/63576f2dfe63fab9b8bf00e29ab2cd52-726B8.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="gingerbeefjunior#4429" data-user-id="339617852111716354" style="color: rgb(65,100,255)">gingerbeefjunior</span>
+
+
+        <span class="chatlog__timestamp">03-Jul-20 04:49 PM</span>
+
+            <div class="chatlog__message " data-message-id="728759294316642346" id="message-728759294316642346">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace"><a href="https://twitter.com/MotorballGame">https://twitter.com/MotorballGame</a></span>
+
+                        </div>
+                    </div>
+
+
+                    <div class="chatlog__embed">
+                            <div class="chatlog__embed-color-pill" style="background-color: rgba(29,161,242,255)"></div>
+
+                        <div class="chatlog__embed-content-container">
+                            <div class="chatlog__embed-content">
+                                <div class="chatlog__embed-text">
+
+                                        <div class="chatlog__embed-title">
+                                                <a class="chatlog__embed-title-link" href="https://twitter.com/MotorballGame">
+                                                    <div class="markdown preserve-whitespace">Motorball (@MotorballGame)</div>
+                                                </a>
+                                        </div>
+
+
+                                        <div class="chatlog__embed-fields">
+                                                <div class="chatlog__embed-field chatlog__embed-field--inline">
+                                                        <div class="chatlog__embed-field-name">
+                                                            <div class="markdown preserve-whitespace">Tweets</div>
+                                                        </div>
+
+                                                        <div class="chatlog__embed-field-value">
+                                                            <div class="markdown preserve-whitespace">1</div>
+                                                        </div>
+                                                </div>
+                                                <div class="chatlog__embed-field chatlog__embed-field--inline">
+                                                        <div class="chatlog__embed-field-name">
+                                                            <div class="markdown preserve-whitespace">Followers</div>
+                                                        </div>
+
+                                                        <div class="chatlog__embed-field-value">
+                                                            <div class="markdown preserve-whitespace">6</div>
+                                                        </div>
+                                                </div>
+                                        </div>
+                                </div>
+
+                                    <div class="chatlog__embed-thumbnail-container">
+                                        <a class="chatlog__embed-thumbnail-link" href="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/M0L6WCu9_normal-5377B.png">
+                                            <img class="chatlog__embed-thumbnail" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/M0L6WCu9_normal-5377B.png" alt="Thumbnail">
+                                        </a>
+                                    </div>
+                            </div>
+
+
+                                <div class="chatlog__embed-footer">
+                                        <img class="chatlog__embed-footer-icon" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/apple-touch-icon-192x192-2DEF4.png" alt="Footer icon">
+
+                                    <span class="chatlog__embed-footer-text">
+Twitter
+
+                                    </span>
+                                </div>
+                        </div>
+                    </div>
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/e7504c23a095a8fb4b1233850599b700-6D2D6.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="NoodleyBrett#1889" data-user-id="484810136108662806" style="color: rgb(65,100,255)">NoodleyBrett</span>
+
+
+        <span class="chatlog__timestamp">13-Jul-20 05:20 PM</span>
+
+            <div class="chatlog__message " data-message-id="732390980313153626" id="message-732390980313153626">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Hello! <img class="emoji " alt="👋" title="👋" src="https://twemoji.maxcdn.com/2/72x72/1f44b.png">
+Motorball Beta 1.0.2 is here and we added some good stuff and also some bad stuff.
+
+Good Stuff:
+Tokens for goals. Every goal scored you will earn 2 tokens by default.
+Tokens for wins. Every win earns you 10 tokens!
+Token multiplier. Before the start of a match you can activate a token multiplier by paying 1 Gem. The token multiplier goes up to a maximum of 4x depending on your opponents level.
+Added notifications for purchasable items in the Garage.
+Reworked Sticky Goo Powerup
+Reworked Super Boost Powerup
+
+Small tweaks and fixes
+
+Crash Fix - Fixed after match crash
+Crash Fix - Fixed paint can button crash in Garage
+
+Bad Stuff:
+Cars got a weird spinny thing going on.
+Spectating appears to be broken and crashing</span>
+
+                        </div>
+                    </div>
+
+
+
+                    <div class="chatlog__reactions">
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="MB" title="MB" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/730265020176269314-9AC9B.png">
+                                <span class="chatlog__reaction-count">12</span>
+                            </div>
+                    </div>
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/e7504c23a095a8fb4b1233850599b700-6D2D6.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="NoodleyBrett#1889" data-user-id="484810136108662806" style="color: rgb(65,100,255)">NoodleyBrett</span>
+
+
+        <span class="chatlog__timestamp">13-Jul-20 05:50 PM</span>
+
+            <div class="chatlog__message " data-message-id="732398613090795591" id="message-732398613090795591">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Also we&#39;re testing a new matchmaker that has a range of 400 trophies. Everyone was set to 0 so we can do some more testing! Thanks for your understanding!</span>
+
+                        </div>
+                    </div>
+
+
+
+                    <div class="chatlog__reactions">
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="arrowup" title="arrowup" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/664494345965273149-16F48.png">
+                                <span class="chatlog__reaction-count">13</span>
+                            </div>
+                    </div>
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/e7504c23a095a8fb4b1233850599b700-6D2D6.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="NoodleyBrett#1889" data-user-id="484810136108662806" style="color: rgb(65,100,255)">NoodleyBrett</span>
+
+
+        <span class="chatlog__timestamp">17-Jul-20 09:57 AM</span>
+
+            <div class="chatlog__message " data-message-id="733729085225959554" id="message-733729085225959554">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace"><span class="mention">@everyone</span> Hello again! <img class="emoji " alt="👋" title="👋" src="https://twemoji.maxcdn.com/2/72x72/1f44b.png">
+
+We’re preparing some new builds for release today with some new features, bug fixes and crash fixes as well. If all goes well with review times they should be out in a few hours from now.
+
+With this next build we will be turning off all powerups as well as doing a FULL RESET as the progression numbers have been tuned and tweaked a bit to speed up player progression.
+
+Stuff We Did:
+Player Stats - Tracking stats that can be found on your PLAYER page
+Reworked Leaderboard Rewards - Now you get badges for your GLOBAL leaderboard placement as well as some currency. You also get currency rewards for your LEVEL leaderboard placement.
+Reworked Badges - Earn badges for placing in the GLOBAL leaderboard. Each time you earn a badge of a specific type it goes up a level.
+Reworked Player Progression - Changed up progression numbers to allow for faster leveling up across the board.
+Added Respec button in SHOP page with some placeholder UI
+Added a bunch of new cars
+Fixed Spectating crashes/deadlocks
+Fixed spinny car madness
+Other bug fixes and tweaks
+
+Known Issues:
+DIAMOND BADGE art is not complete
+You can Respec at LEVEL 1 and get stuck
+
+Thanks to everyone for playing, the feedback and bug reports!&lt;3</span>
+
+                                <span class="chatlog__edited-timestamp" title="17-Jul-20 10:23 AM">(edited)</span>
+                        </div>
+                    </div>
+
+
+
+                    <div class="chatlog__reactions">
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="win" title="win" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/732779922631819275-F6DC6.png">
+                                <span class="chatlog__reaction-count">25</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#127482;&#127480;" title="&#127482;&#127480;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f1fa-1f1f8-A328E.png">
+                                <span class="chatlog__reaction-count">8</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="happybot" title="happybot" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/728380168233549864-FDEFE.gif">
+                                <span class="chatlog__reaction-count">11</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="tokens" title="tokens" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/732787397846106112-4133B.png">
+                                <span class="chatlog__reaction-count">6</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="arrowup" title="arrowup" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/664494345965273149-16F48.png">
+                                <span class="chatlog__reaction-count">11</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="golfygiggle" title="golfygiggle" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/664156597253046362-DC51C.png">
+                                <span class="chatlog__reaction-count">6</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#127486;" title="&#127486;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f1fe-B7194.png">
+                                <span class="chatlog__reaction-count">9</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#127462;" title="&#127462;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f1e6-79872.png">
+                                <span class="chatlog__reaction-count">8</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#127480;" title="&#127480;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f1f8-B6AC7.png">
+                                <span class="chatlog__reaction-count">9</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#128518;" title="&#128518;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f606-5E74A.png">
+                                <span class="chatlog__reaction-count">4</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#128077;" title="&#128077;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f44d-1485B.png">
+                                <span class="chatlog__reaction-count">2</span>
+                            </div>
+                    </div>
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/e7504c23a095a8fb4b1233850599b700-6D2D6.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="NoodleyBrett#1889" data-user-id="484810136108662806" style="color: rgb(65,100,255)">NoodleyBrett</span>
+
+
+        <span class="chatlog__timestamp">27-Jul-20 09:10 AM</span>
+
+            <div class="chatlog__message " data-message-id="737341181092167703" id="message-737341181092167703">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace"><span class="mention">@everyone</span> Hi again!
+
+At the end of this season I will be doing another FULL RESET on all accounts. We’ve added some new content as well as tweaked progression numbers again and we need some more testing!  Stats should be working now!
+
+I&#39;ll also be moving the season timer to 1 day for each season as we still need to fix the empty season rewards bug. :)
+
+We’ll be doing some new builds to fix the game time and other bugs soon here.
+
+As you have noticed the game is up for preorder and we’ll be launching very soon!
+
+Thanks again for all the feedback and reports!</span>
+
+                                <span class="chatlog__edited-timestamp" title="27-Jul-20 09:14 AM">(edited)</span>
+                        </div>
+                    </div>
+
+
+
+                    <div class="chatlog__reactions">
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="tokens" title="tokens" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/732787397846106112-4133B.png">
+                                <span class="chatlog__reaction-count">37</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="Superpalm" title="Superpalm" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/664498177445199882-7225D.png">
+                                <span class="chatlog__reaction-count">9</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#129413;" title="&#129413;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f985-4261D.png">
+                                <span class="chatlog__reaction-count">6</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#129324;" title="&#129324;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f92c-5B090.png">
+                                <span class="chatlog__reaction-count">13</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#128524;" title="&#128524;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f60c-63135.png">
+                                <span class="chatlog__reaction-count">8</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#127470;" title="&#127470;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f1ee-B3C1F.png">
+                                <span class="chatlog__reaction-count">5</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#127469;" title="&#127469;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f1ed-AD677.png">
+                                <span class="chatlog__reaction-count">6</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#127462;" title="&#127462;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f1e6-79872.png">
+                                <span class="chatlog__reaction-count">6</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#127481;" title="&#127481;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f1f9-24F03.png">
+                                <span class="chatlog__reaction-count">6</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#127466;" title="&#127466;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f1ea-4B558.png">
+                                <span class="chatlog__reaction-count">6</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="MB" title="MB" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/730265020176269314-9AC9B.png">
+                                <span class="chatlog__reaction-count">8</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="happybot" title="happybot" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/728380168233549864-FDEFE.gif">
+                                <span class="chatlog__reaction-count">7</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="antidab" title="antidab" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/664498176648282133-ED863.png">
+                                <span class="chatlog__reaction-count">5</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#127814;" title="&#127814;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f346-1EDF5.png">
+                                <span class="chatlog__reaction-count">8</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="arrowup" title="arrowup" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/664494345965273149-16F48.png">
+                                <span class="chatlog__reaction-count">10</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#128077;" title="&#128077;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f44d-1485B.png">
+                                <span class="chatlog__reaction-count">11</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="win" title="win" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/732779922631819275-F6DC6.png">
+                                <span class="chatlog__reaction-count">6</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#128591;" title="&#128591;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f64f-71468.png">
+                                <span class="chatlog__reaction-count">5</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#129395;" title="&#129395;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f973-8DAB3.png">
+                                <span class="chatlog__reaction-count">2</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#128296;" title="&#128296;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f528-65D08.png">
+                                <span class="chatlog__reaction-count">2</span>
+                            </div>
+                    </div>
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1cf0ba7ceaa9da148048a739d6e0b462-6991F.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="jordo#0166" data-user-id="211592049655283713" style="color: rgb(65,100,255)">jordo</span>
+
+
+        <span class="chatlog__timestamp">01-Aug-20 07:28 AM</span>
+
+            <div class="chatlog__message " data-message-id="739127494099075112" id="message-739127494099075112">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace"><span class="mention">@everyone</span> We have now shut down beta access in order to prep our infrastructure for global launch!   Your apps will continue to say there is an update available, but you will not be able to update anymore until thursday.  Thanks again everyone for helping us test this game!  Looking forward to seeing everyone compete next week for that season 1 leaderboard!</span>
+
+                        </div>
+                    </div>
+
+
+
+                    <div class="chatlog__reactions">
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="✅" title="✅" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/2705-6C755.png">
+                                <span class="chatlog__reaction-count">57</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#127925;" title="&#127925;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f3b5-98106.png">
+                                <span class="chatlog__reaction-count">12</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#128513;" title="&#128513;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f601-74B42.png">
+                                <span class="chatlog__reaction-count">15</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#128588;" title="&#128588;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f64c-EE1DC.png">
+                                <span class="chatlog__reaction-count">12</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="win" title="win" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/732779922631819275-F6DC6.png">
+                                <span class="chatlog__reaction-count">11</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="impressedbot" title="impressedbot" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/728380209497374823-3EC52.gif">
+                                <span class="chatlog__reaction-count">10</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="antidab" title="antidab" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/664498176648282133-ED863.png">
+                                <span class="chatlog__reaction-count">8</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#127464;" title="&#127464;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f1e8-D8C42.png">
+                                <span class="chatlog__reaction-count">7</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#127476;" title="&#127476;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f1f4-6C4DE.png">
+                                <span class="chatlog__reaction-count">7</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#127382;" title="&#127382;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f196-5413B.png">
+                                <span class="chatlog__reaction-count">7</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#128000;" title="&#128000;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f400-5996A.png">
+                                <span class="chatlog__reaction-count">8</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#127480;" title="&#127480;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f1f8-B6AC7.png">
+                                <span class="chatlog__reaction-count">7</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="❕" title="❕" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/2755-FE934.png">
+                                <span class="chatlog__reaction-count">7</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#127805;" title="&#127805;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f33d-69668.png">
+                                <span class="chatlog__reaction-count">5</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#128078;" title="&#128078;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f44e-1A8D9.png">
+                                <span class="chatlog__reaction-count">4</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#128526;" title="&#128526;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f60e-C8514.png">
+                                <span class="chatlog__reaction-count">5</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#128075;" title="&#128075;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f44b-63FD3.png">
+                                <span class="chatlog__reaction-count">5</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#128536;" title="&#128536;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f618-8E659.png">
+                                <span class="chatlog__reaction-count">6</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="MB" title="MB" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/730265020176269314-9AC9B.png">
+                                <span class="chatlog__reaction-count">9</span>
+                            </div>
+                    </div>
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/26500b363d85d5a86acd481453787593-370D3.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Kay-Lynne#5398" data-user-id="566005547887755274" style="color: rgb(65,100,255)">Kay-Lynne</span>
+
+
+        <span class="chatlog__timestamp">06-Aug-20 09:52 AM</span>
+
+            <div class="chatlog__message " data-message-id="740975547445936199" id="message-740975547445936199">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace"><span class="mention">@everyone</span> It&#39;s GLOBAL LAUNCH DAY! We&#39;re so excited to announce that Motorball is finally OUT! We hope you all have been having fun driving the cars and scoring all the goals, and if you haven’t downloaded it yet, what are you waiting for!?
+
+We really appreciate all of the love and support we have received from all of you throughout development. We seriously could not have done this without you. If you’re new to the Motorball community, welcome! We know you’ll find life long friends (as well as friendly competition <img class="emoji " alt="😉" title="😉" src="https://twemoji.maxcdn.com/2/72x72/1f609.png"> ) here.
+
+Some things to note, we are still continually open to any feedback and suggestions you have for us to make Motorball better. You can leave your feedback in the <span class="mention">#feedback</span> channel. 
+
+If you are needing help with anything Motorball related, please reach out to us in the <span class="mention">#support</span> channel or through our support e-mail at support+motorball@noodlecake.com. 
+
+We are also on social media, so if you want to stay up to date on anything Motorball and Noodlecake related, give us a follow! 
+
+Facebook: <a href="https://www.facebook.com/noodlecake">https://www.facebook.com/noodlecake</a> 
+
+Instagram: <a href="https://www.instagram.com/noodlecake">https://www.instagram.com/noodlecake</a> 
+
+Twitter: <a href="https://www.twitter.com/NoodlecakeGames">https://www.twitter.com/NoodlecakeGames</a> 
+
+We also have a brand new Motorball Twitter, which you can find here: <a href="https://www.twitter.com/MotorballGame">https://www.twitter.com/MotorballGame</a> 
+
+Once again, thank you so much for all of your support, and we’ll see you on the field!
+
+From Your Fav Developers, 
+
+Noodlecake</span>
+
+                                <span class="chatlog__edited-timestamp" title="06-Aug-20 10:08 AM">(edited)</span>
+                        </div>
+                    </div>
+
+
+                    <div class="chatlog__embed">
+                            <div class="chatlog__embed-color-pill" style="background-color: rgba(255,255,255,255)"></div>
+
+                        <div class="chatlog__embed-content-container">
+                            <div class="chatlog__embed-content">
+                                <div class="chatlog__embed-text">
+
+                                        <div class="chatlog__embed-title">
+                                                <a class="chatlog__embed-title-link" href="https://www.instagram.com/noodlecake">
+                                                    <div class="markdown preserve-whitespace">Login • Instagram</div>
+                                                </a>
+                                        </div>
+
+                                        <div class="chatlog__embed-description">
+                                            <div class="markdown preserve-whitespace">Welcome back to Instagram. Sign in to check out what your friends, family &amp; interests have been capturing &amp; sharing around the world.</div>
+                                        </div>
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <div class="chatlog__embed">
+                            <div class="chatlog__embed-color-pill chatlog__embed-color-pill--default"></div>
+
+                        <div class="chatlog__embed-content-container">
+                            <div class="chatlog__embed-content">
+                                <div class="chatlog__embed-text">
+
+                                        <div class="chatlog__embed-title">
+                                                <a class="chatlog__embed-title-link" href="https://www.twitter.com/NoodlecakeGames">
+                                                    <div class="markdown preserve-whitespace">Noodlecake <img class="emoji " alt="🍜" title="🍜" src="https://twemoji.maxcdn.com/2/72x72/1f35c.png"><img class="emoji " alt="🍰" title="🍰" src="https://twemoji.maxcdn.com/2/72x72/1f370.png"> (@NoodlecakeGames) | Twitter</div>
+                                                </a>
+                                        </div>
+
+                                        <div class="chatlog__embed-description">
+                                            <div class="markdown preserve-whitespace">The latest Tweets from Noodlecake <img class="emoji " alt="🍜" title="🍜" src="https://twemoji.maxcdn.com/2/72x72/1f35c.png"><img class="emoji " alt="🍰" title="🍰" src="https://twemoji.maxcdn.com/2/72x72/1f370.png"> (@NoodlecakeGames). Creators of Golf Blitz, Motorball, the award winning Super Stickman Golf series and indie game publisher to the stars!✨. Saskatoon, SK</div>
+                                        </div>
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <div class="chatlog__embed">
+                            <div class="chatlog__embed-color-pill chatlog__embed-color-pill--default"></div>
+
+                        <div class="chatlog__embed-content-container">
+                            <div class="chatlog__embed-content">
+                                <div class="chatlog__embed-text">
+
+                                        <div class="chatlog__embed-title">
+                                                <a class="chatlog__embed-title-link" href="https://www.twitter.com/MotorballGame">
+                                                    <div class="markdown preserve-whitespace">Motorball (@MotorballGame) | Twitter</div>
+                                                </a>
+                                        </div>
+
+                                        <div class="chatlog__embed-description">
+                                            <div class="markdown preserve-whitespace">The latest Tweets from Motorball (@MotorballGame): &quot;Are you ready to drive circles around the competition? 
+
+#Motorball zooms its way onto the App Store and Google Play on August 6th, 2020! 
+
+Pre-order on iOS now: <a href="https://t.co/NigvC9EH4F">https://t.co/NigvC9EH4F</a>
+
+#f2p #onlinemultiplayer #gamedev #newg...</div>
+                                        </div>
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                    <div class="chatlog__reactions">
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#128513;" title="&#128513;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f601-74B42.png">
+                                <span class="chatlog__reaction-count">18</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#128204;" title="&#128204;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f4cc-13668.png">
+                                <span class="chatlog__reaction-count">11</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="arrowup" title="arrowup" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/664494345965273149-16F48.png">
+                                <span class="chatlog__reaction-count">21</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="when" title="when" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/740666825209020587-A84FC.png">
+                                <span class="chatlog__reaction-count">9</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="win" title="win" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/740670375150616738-B2F47.png">
+                                <span class="chatlog__reaction-count">9</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="MB" title="MB" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/730265020176269314-9AC9B.png">
+                                <span class="chatlog__reaction-count">11</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="tokens" title="tokens" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/732787397846106112-4133B.png">
+                                <span class="chatlog__reaction-count">11</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="vroom" title="vroom" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/740650376633516234-08564.png">
+                                <span class="chatlog__reaction-count">6</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="antidab" title="antidab" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/664498176648282133-ED863.png">
+                                <span class="chatlog__reaction-count">6</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="golfygiggle" title="golfygiggle" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/664156597253046362-DC51C.png">
+                                <span class="chatlog__reaction-count">10</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#129470;" title="&#129470;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f9be-63361.png">
+                                <span class="chatlog__reaction-count">5</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="happybot" title="happybot" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/728380168233549864-FDEFE.gif">
+                                <span class="chatlog__reaction-count">9</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="dootdoot" title="dootdoot" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/740651501130612817-E392E.png">
+                                <span class="chatlog__reaction-count">5</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="embarrassedbot" title="embarrassedbot" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/728380101393121360-4CF79.gif">
+                                <span class="chatlog__reaction-count">6</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#127378;" title="&#127378;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f192-3E0D4.png">
+                                <span class="chatlog__reaction-count">6</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="loss" title="loss" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/740670395446984754-20FF2.png">
+                                <span class="chatlog__reaction-count">4</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#128077;" title="&#128077;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f44d-1485B.png">
+                                <span class="chatlog__reaction-count">1</span>
+                            </div>
+                    </div>
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+        <div class="chatlog__reference-symbol">
+        </div>
+        <div class="chatlog__reference">
+                <img class="chatlog__reference-avatar" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/26500b363d85d5a86acd481453787593-370D3.png" alt="Avatar">
+                <span class="chatlog__reference-name" title="Kay-Lynne#5398" style="color: rgb(65,100,255)">Kay-Lynne</span>
+                <a class="chatlog__reference-link" href="#" onclick="scrollToMessage(event, &#39;740975547445936199&#39;)">
+                    <span class="chatlog__reference-content">
+<span class="mention">@everyone</span> It&#39;s GLOBAL LAUNCH DAY! We&#39;re so excited to announce that Motorball is finally OUT! We hope you all have been having fun driving the cars and scoring all the goals, and if you haven’t downloaded it yet, what are you waiting for!?
+
+We really appreciate all of the love and support we have received from all of you throughout development. We seriously could not have done this without you. If you’re new to the Motorball community, welcome! We know you’ll find life long friends (as well as friendly competition <img class="emoji " alt="😉" title="😉" src="https://twemoji.maxcdn.com/2/72x72/1f609.png"> ) here.
+
+Some things to note, we are still continually open to any feedback and suggestions you have for us to make Motorball better. You can leave your feedback in the <span class="mention">#feedback</span> channel. 
+
+If you are needing help with anything Motorball related, please reach out to us in the <span class="mention">#support</span> channel or through our support e-mail at support+motorball@noodlecake.com. 
+
+We are also on social media, so if you want to stay up to date on anything Motorball and Noodlecake related, give us a follow! 
+
+Facebook: <a href="https://www.facebook.com/noodlecake">https://www.facebook.com/noodlecake</a> 
+
+Instagram: <a href="https://www.instagram.com/noodlecake">https://www.instagram.com/noodlecake</a> 
+
+Twitter: <a href="https://www.twitter.com/NoodlecakeGames">https://www.twitter.com/NoodlecakeGames</a> 
+
+We also have a brand new Motorball Twitter, which you can find here: <a href="https://www.twitter.com/MotorballGame">https://www.twitter.com/MotorballGame</a> 
+
+Once again, thank you so much for all of your support, and we’ll see you on the field!
+
+From Your Fav Developers, 
+
+Noodlecake                    </span>
+
+                        <span class="chatlog__reference-edited-timestamp" title="06-Aug-20 10:08 AM">(edited)</span>
+                </a>
+        </div>
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/e7504c23a095a8fb4b1233850599b700-6D2D6.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="NoodleyBrett#1889" data-user-id="484810136108662806" style="color: rgb(65,100,255)">NoodleyBrett</span>
+
+
+        <span class="chatlog__timestamp">06-Aug-20 09:52 AM</span>
+
+            <div class="chatlog__message " data-message-id="740975705516671128" id="message-740975705516671128">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Pinned a message.</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1cf0ba7ceaa9da148048a739d6e0b462-6991F.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="jordo#0166" data-user-id="211592049655283713" style="color: rgb(65,100,255)">jordo</span>
+
+
+        <span class="chatlog__timestamp">07-Aug-20 02:18 PM</span>
+
+            <div class="chatlog__message chatlog__message--pinned" data-message-id="741404906895835248" id="message-741404906895835248">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Anyone who is on Android and was potentially having download issues, or not able to download the game from google play:  Please try again now!   <a href="https://play.google.com/store/apps/details?id=com.noodlecake.motorball">https://play.google.com/store/apps/details?id=com.noodlecake.motorball</a></span>
+
+                                <span class="chatlog__edited-timestamp" title="07-Aug-20 02:19 PM">(edited)</span>
+                        </div>
+                    </div>
+
+
+                    <div class="chatlog__embed">
+                            <div class="chatlog__embed-color-pill chatlog__embed-color-pill--default"></div>
+
+                        <div class="chatlog__embed-content-container">
+                            <div class="chatlog__embed-content">
+                                <div class="chatlog__embed-text">
+
+                                        <div class="chatlog__embed-title">
+                                                <a class="chatlog__embed-title-link" href="https://play.google.com/store/apps/details?id=com.noodlecake.motorball">
+                                                    <div class="markdown preserve-whitespace">Motorball - Apps on Google Play</div>
+                                                </a>
+                                        </div>
+
+                                        <div class="chatlog__embed-description">
+                                            <div class="markdown preserve-whitespace">Start your engines and drive to your favorite arena in this real-time, fast paced multiplayer game from the creators of Golf Blitz!
+
+Head to the garage to unlock dozens of unique cars, paint jobs, accessories and more to customize your ride and score goals in style.&#160;
+
+Do you h...</div>
+                                        </div>
+
+                                </div>
+
+                                    <div class="chatlog__embed-thumbnail-container">
+                                        <a class="chatlog__embed-thumbnail-link" href="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/MLqKGgGuq4mCRBQRS7MohF-wb4HIa_43wkmZ_r31UL-61B58">
+                                            <img class="chatlog__embed-thumbnail" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/MLqKGgGuq4mCRBQRS7MohF-wb4HIa_43wkmZ_r31UL-61B58" alt="Thumbnail">
+                                        </a>
+                                    </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                    <div class="chatlog__reactions">
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="win" title="win" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/740670375150616738-B2F47.png">
+                                <span class="chatlog__reaction-count">11</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="MB" title="MB" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/730265020176269314-9AC9B.png">
+                                <span class="chatlog__reaction-count">8</span>
+                            </div>
+                    </div>
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+        <div class="chatlog__reference-symbol">
+        </div>
+        <div class="chatlog__reference">
+                <img class="chatlog__reference-avatar" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1cf0ba7ceaa9da148048a739d6e0b462-6991F.png" alt="Avatar">
+                <span class="chatlog__reference-name" title="jordo#0166" style="color: rgb(65,100,255)">jordo</span>
+                <a class="chatlog__reference-link" href="#" onclick="scrollToMessage(event, &#39;741404906895835248&#39;)">
+                    <span class="chatlog__reference-content">
+Anyone who is on Android and was potentially having download issues, or not able to download the game from google play:  Please try again now!   <a href="https://play.google.com/store/apps/details?id=com.noodlecake.motorball">https://play.google.com/store/apps/details?id=com.noodlecake.motorball</a>                    </span>
+
+                        <span class="chatlog__reference-edited-timestamp" title="07-Aug-20 02:19 PM">(edited)</span>
+                </a>
+        </div>
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1cf0ba7ceaa9da148048a739d6e0b462-6991F.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="jordo#0166" data-user-id="211592049655283713" style="color: rgb(65,100,255)">jordo</span>
+
+
+        <span class="chatlog__timestamp">07-Aug-20 02:18 PM</span>
+
+            <div class="chatlog__message " data-message-id="741404941788381185" id="message-741404941788381185">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Pinned a message.</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/26500b363d85d5a86acd481453787593-370D3.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Kay-Lynne#5398" data-user-id="566005547887755274" style="color: rgb(65,100,255)">Kay-Lynne</span>
+
+
+        <span class="chatlog__timestamp">10-Aug-20 03:07 PM</span>
+
+            <div class="chatlog__message " data-message-id="742504538401013882" id="message-742504538401013882">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Hey <span class="mention">@everyone</span> ! I’ll be checking in on the <span class="mention">#support</span> channel regularly helping Brett out with support, but if you need help feel free to DM me and I will respond to you when I can! Brett is still a good person to get a hold of as well but I’m also someone you can reach out to! Thanks! <img class="emoji " alt="☺" title="☺" src="https://twemoji.maxcdn.com/2/72x72/263a.png">️<img class="emoji " alt="vroom" title="vroom" src="https://cdn.discordapp.com/emojis/740650376633516234.png"></span>
+
+                                <span class="chatlog__edited-timestamp" title="10-Aug-20 03:08 PM">(edited)</span>
+                        </div>
+                    </div>
+
+
+
+                    <div class="chatlog__reactions">
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="welcome" title="welcome" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/740667533568507964-00E4F.png">
+                                <span class="chatlog__reaction-count">13</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="win" title="win" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/740670375150616738-B2F47.png">
+                                <span class="chatlog__reaction-count">10</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="dootdoot" title="dootdoot" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/740651501130612817-E392E.png">
+                                <span class="chatlog__reaction-count">6</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="vroom" title="vroom" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/740650376633516234-08564.png">
+                                <span class="chatlog__reaction-count">6</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#128077;" title="&#128077;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f44d-1485B.png">
+                                <span class="chatlog__reaction-count">6</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="arrowup" title="arrowup" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/664494345965273149-16F48.png">
+                                <span class="chatlog__reaction-count">9</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="antidab" title="antidab" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/664498176648282133-ED863.png">
+                                <span class="chatlog__reaction-count">4</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="MBnofun" title="MBnofun" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/732404082085593168-D5E12.png">
+                                <span class="chatlog__reaction-count">3</span>
+                            </div>
+                    </div>
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/26500b363d85d5a86acd481453787593-370D3.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Kay-Lynne#5398" data-user-id="566005547887755274" style="color: rgb(65,100,255)">Kay-Lynne</span>
+
+
+        <span class="chatlog__timestamp">28-Aug-20 09:49 AM</span>
+
+            <div class="chatlog__message " data-message-id="748947441549574258" id="message-748947441549574258">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Hey <span class="mention">@everyone</span>! Posted this on the highlight-reel channel as well, but just letting you know that I&#39;ll be periodically posting highlights up on the MotorballGame Twitter! Will probably do a Highlight of the Week sort of thing. So check it out and if you see one of yours feel free to reply! <img class="emoji " alt="😄" title="😄" src="https://twemoji.maxcdn.com/2/72x72/1f604.png"></span>
+
+                        </div>
+                    </div>
+
+
+
+                    <div class="chatlog__reactions">
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="arrowup" title="arrowup" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/664494345965273149-16F48.png">
+                                <span class="chatlog__reaction-count">33</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="welcome" title="welcome" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/740667533568507964-00E4F.png">
+                                <span class="chatlog__reaction-count">9</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="happybot" title="happybot" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/728380168233549864-FDEFE.gif">
+                                <span class="chatlog__reaction-count">10</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#128513;" title="&#128513;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f601-74B42.png">
+                                <span class="chatlog__reaction-count">9</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="when" title="when" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/740666825209020587-A84FC.png">
+                                <span class="chatlog__reaction-count">8</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#128523;" title="&#128523;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f60b-F45D2.png">
+                                <span class="chatlog__reaction-count">7</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#128576;" title="&#128576;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f640-C4FDE.png">
+                                <span class="chatlog__reaction-count">3</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="MB" title="MB" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/730265020176269314-9AC9B.png">
+                                <span class="chatlog__reaction-count">4</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#128591;" title="&#128591;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f64f-71468.png">
+                                <span class="chatlog__reaction-count">4</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#128516;" title="&#128516;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f604-ABA04.png">
+                                <span class="chatlog__reaction-count">3</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#127475;" title="&#127475;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f1f3-08F96.png">
+                                <span class="chatlog__reaction-count">1</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#127476;" title="&#127476;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f1f4-6C4DE.png">
+                                <span class="chatlog__reaction-count">1</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#127486;" title="&#127486;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f1fe-B7194.png">
+                                <span class="chatlog__reaction-count">4</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#127466;" title="&#127466;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f1ea-4B558.png">
+                                <span class="chatlog__reaction-count">4</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#127480;" title="&#127480;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f1f8-B6AC7.png">
+                                <span class="chatlog__reaction-count">4</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="antidab" title="antidab" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/664498176648282133-ED863.png">
+                                <span class="chatlog__reaction-count">1</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#128169;" title="&#128169;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f4a9-79AA8.png">
+                                <span class="chatlog__reaction-count">1</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="golfygiggle" title="golfygiggle" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/664156597253046362-DC51C.png">
+                                <span class="chatlog__reaction-count">1</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#128519;" title="&#128519;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f607-FC0F2.png">
+                                <span class="chatlog__reaction-count">1</span>
+                            </div>
+                    </div>
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/b873c01a1007e8a467e829f7cca43e41-8F5C3.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="noodle_ryan#8251" data-user-id="268489137760370688" style="color: rgb(65,100,255)">noodle_ryan</span>
+
+
+        <span class="chatlog__timestamp">08-Sep-20 09:10 AM</span>
+
+            <div class="chatlog__message " data-message-id="752923819487789187" id="message-752923819487789187">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace"><span class="mention">@everyone</span> Hey everyone! We have a small request for anyone playing on Android. If you reviewed the game during beta, or haven&#39;t yet, could you please head over to the games page in Google Play and toss us a 5 star review if you are enjoying it? 
+
+It looks like our internal rating pop up isn&#39;t working right at the moment so if you could do that in the meantime, we would really really appreciate it. It helps our listing and will ensure the fancy Google machine sends more players your way to play against! Thanks team!
+
+<a href="https://play.google.com/store/apps/details?id=com.noodlecake.motorball">https://play.google.com/store/apps/details?id=com.noodlecake.motorball</a></span>
+
+                        </div>
+                    </div>
+
+
+                    <div class="chatlog__embed">
+                            <div class="chatlog__embed-color-pill chatlog__embed-color-pill--default"></div>
+
+                        <div class="chatlog__embed-content-container">
+                            <div class="chatlog__embed-content">
+                                <div class="chatlog__embed-text">
+
+                                        <div class="chatlog__embed-title">
+                                                <a class="chatlog__embed-title-link" href="https://play.google.com/store/apps/details?id=com.noodlecake.motorball">
+                                                    <div class="markdown preserve-whitespace">Motorball - Apps on Google Play</div>
+                                                </a>
+                                        </div>
+
+                                        <div class="chatlog__embed-description">
+                                            <div class="markdown preserve-whitespace">Start your engines and drive to your favorite arena in this real-time, fast paced multiplayer game from the creators of Golf Blitz!
+
+Head to the garage to unlock dozens of unique cars, paint jobs, accessories and more to customize your ride and score goals in style.&#160;
+
+Do you h...</div>
+                                        </div>
+
+                                </div>
+
+                                    <div class="chatlog__embed-thumbnail-container">
+                                        <a class="chatlog__embed-thumbnail-link" href="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/MLqKGgGuq4mCRBQRS7MohF-wb4HIa_43wkmZ_r31UL-61B58">
+                                            <img class="chatlog__embed-thumbnail" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/MLqKGgGuq4mCRBQRS7MohF-wb4HIa_43wkmZ_r31UL-61B58" alt="Thumbnail">
+                                        </a>
+                                    </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                    <div class="chatlog__reactions">
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#128227;" title="&#128227;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f4e3-0D212.png">
+                                <span class="chatlog__reaction-count">21</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="arrowup" title="arrowup" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/664494345965273149-16F48.png">
+                                <span class="chatlog__reaction-count">34</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#128077;" title="&#128077;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f44d-1485B.png">
+                                <span class="chatlog__reaction-count">34</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="happybot" title="happybot" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/728380168233549864-FDEFE.gif">
+                                <span class="chatlog__reaction-count">21</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="MB" title="MB" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/730265020176269314-9AC9B.png">
+                                <span class="chatlog__reaction-count">15</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="MBnofun" title="MBnofun" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/732404082085593168-D5E12.png">
+                                <span class="chatlog__reaction-count">12</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="arrowdown" title="arrowdown" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/664494402273542145-F0BFD.png">
+                                <span class="chatlog__reaction-count">7</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#129326;" title="&#129326;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f92e-D0B81.png">
+                                <span class="chatlog__reaction-count">7</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#128078;" title="&#128078;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f44e-1A8D9.png">
+                                <span class="chatlog__reaction-count">7</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#128176;" title="&#128176;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f4b0-94128.png">
+                                <span class="chatlog__reaction-count">8</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#127475;" title="&#127475;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f1f3-08F96.png">
+                                <span class="chatlog__reaction-count">15</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#127476;" title="&#127476;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f1f4-6C4DE.png">
+                                <span class="chatlog__reaction-count">15</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#127481;" title="&#127481;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f1f9-24F03.png">
+                                <span class="chatlog__reaction-count">8</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#128526;" title="&#128526;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f60e-C8514.png">
+                                <span class="chatlog__reaction-count">9</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#127469;" title="&#127469;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f1ed-AD677.png">
+                                <span class="chatlog__reaction-count">7</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#127471;" title="&#127471;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f1ef-6AFB0.png">
+                                <span class="chatlog__reaction-count">6</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#127485;" title="&#127485;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f1fd-356E5.png">
+                                <span class="chatlog__reaction-count">7</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#127358;️" title="&#127358;️" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f17e-78F24.png">
+                                <span class="chatlog__reaction-count">6</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="when" title="when" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/740666825209020587-A84FC.png">
+                                <span class="chatlog__reaction-count">12</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#129436;" title="&#129436;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f99c-ABE11.png">
+                                <span class="chatlog__reaction-count">10</span>
+                            </div>
+                    </div>
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/e7504c23a095a8fb4b1233850599b700-6D2D6.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="NoodleyBrett#1889" data-user-id="484810136108662806" style="color: rgb(65,100,255)">NoodleyBrett</span>
+
+
+        <span class="chatlog__timestamp">07-Oct-20 11:11 AM</span>
+
+            <div class="chatlog__message " data-message-id="763463559140737025" id="message-763463559140737025">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace"><span class="mention">@everyone</span> Hello Ballers! 
+
+A new build has been deployed on iOS and Android with some small features and fixes.
+Added Respec option to the Shop Page ( costs 0 Gems for now )
+Added Emote muting
+Add Beta Tester content that will be handed out and turned on shortly (Car, Key and Badge)
+Camera Shake option
+Additional bug fixes and improvements
+
+As always, thanks for playing!</span>
+
+                        </div>
+                    </div>
+
+
+
+                    <div class="chatlog__reactions">
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="when" title="when" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/740666825209020587-A84FC.png">
+                                <span class="chatlog__reaction-count">28</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="arrowup" title="arrowup" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/664494345965273149-16F48.png">
+                                <span class="chatlog__reaction-count">45</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="golfygiggle" title="golfygiggle" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/664156597253046362-DC51C.png">
+                                <span class="chatlog__reaction-count">20</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="antidab" title="antidab" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/664498176648282133-ED863.png">
+                                <span class="chatlog__reaction-count">18</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#129313;" title="&#129313;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f921-7AE5E.png">
+                                <span class="chatlog__reaction-count">15</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="happybot" title="happybot" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/728380168233549864-FDEFE.gif">
+                                <span class="chatlog__reaction-count">18</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="MB" title="MB" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/730265020176269314-9AC9B.png">
+                                <span class="chatlog__reaction-count">17</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="arrowdown" title="arrowdown" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/664494402273542145-F0BFD.png">
+                                <span class="chatlog__reaction-count">9</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="dootdoot" title="dootdoot" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/740651501130612817-E392E.png">
+                                <span class="chatlog__reaction-count">14</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="vroom" title="vroom" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/740650376633516234-08564.png">
+                                <span class="chatlog__reaction-count">14</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#127477;" title="&#127477;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f1f5-E259F.png">
+                                <span class="chatlog__reaction-count">8</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="tokens" title="tokens" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/732787397846106112-4133B.png">
+                                <span class="chatlog__reaction-count">12</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#129395;" title="&#129395;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f973-8DAB3.png">
+                                <span class="chatlog__reaction-count">15</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="impressedbot" title="impressedbot" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/728380209497374823-3EC52.gif">
+                                <span class="chatlog__reaction-count">13</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#129321;" title="&#129321;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f929-DDB41.png">
+                                <span class="chatlog__reaction-count">15</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#127358;️" title="&#127358;️" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f17e-78F24.png">
+                                <span class="chatlog__reaction-count">8</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="win" title="win" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/740670375150616738-B2F47.png">
+                                <span class="chatlog__reaction-count">16</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="superpalm" title="superpalm" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/664498177445199882-7225D.png">
+                                <span class="chatlog__reaction-count">10</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="0️⃣" title="0️⃣" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/30-20e3-9D3CF.png">
+                                <span class="chatlog__reaction-count">9</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="welcome" title="welcome" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/740667533568507964-00E4F.png">
+                                <span class="chatlog__reaction-count">11</span>
+                            </div>
+                    </div>
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/63576f2dfe63fab9b8bf00e29ab2cd52-726B8.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="gingerbeefjunior#4429" data-user-id="339617852111716354" style="color: rgb(65,100,255)">gingerbeefjunior</span>
+
+
+        <span class="chatlog__timestamp">19-Oct-20 01:26 PM</span>
+
+            <div class="chatlog__message " data-message-id="767846171242528810" id="message-767846171242528810">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace"><span class="mention">@everyone</span> Hey Ballers!
+
+As you may have already figured out, there&#39;s some big changes coming down pipe for Motorball!
+
+It&#39;s been great to see your response to the game over the past few months. Your passion for and enjoyment of the game has been inspiring to us and many of you have helped build and support a wonderful community around Motorball.
+
+Thank You!
+
+Noodlecake has always held to one simple game design philosophy: fun comes first. Listening to your thoughts and feedback we&#39;ve realized that certain aspects of Motorball don&#39;t quite live up to that standard. So with that simple philosophy in mind we&#39;ve taken a step back to re-evaluate some of those systems.. and implemented some changes which will make the game more fun for EVERYONE:
+
+- All powerups will now be unlocked from the start.
+- Player tuning will be reworked, all players will be tuned to equal stats so that every player can be competitive.
+- Goal Quest cooldown will decrease from 4 to 2 hours.
+- Win Quest cooldown will decrease from 12 to 8 hours.
+- Landscape Controls will now be an available option in settings which will allow you to play matches in landscape.
+
+Also, we&#39;ll be removing Respec and Level Leaderboards since they will no longer be relevant, making some balance changes to a few of the powerups and adding a whole bunch of new cars, keys, decals, trails... and more!
+
+You can look forward to these changes and new content in the next major update which will be rolling out along with the next season, Season 7! Thanks so much for playing Motorball, see you out on the field <img class="emoji " alt="🙂" title="🙂" src="https://twemoji.maxcdn.com/2/72x72/1f642.png"></span>
+
+                        </div>
+                    </div>
+
+
+
+                    <div class="chatlog__reactions">
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#128077;" title="&#128077;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f44d-1485B.png">
+                                <span class="chatlog__reaction-count">50</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#127814;" title="&#127814;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f346-1EDF5.png">
+                                <span class="chatlog__reaction-count">13</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="when" title="when" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/740666825209020587-A84FC.png">
+                                <span class="chatlog__reaction-count">13</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#127825;" title="&#127825;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f351-28BDC.png">
+                                <span class="chatlog__reaction-count">14</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="vroom" title="vroom" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/740650376633516234-08564.png">
+                                <span class="chatlog__reaction-count">15</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#128551;" title="&#128551;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f627-BC1AD.png">
+                                <span class="chatlog__reaction-count">9</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="arrowdown" title="arrowdown" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/664494402273542145-F0BFD.png">
+                                <span class="chatlog__reaction-count">9</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="superpalm" title="superpalm" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/664498177445199882-7225D.png">
+                                <span class="chatlog__reaction-count">10</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="MBnofun" title="MBnofun" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/732404082085593168-D5E12.png">
+                                <span class="chatlog__reaction-count">6</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="arrowup" title="arrowup" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/664494345965273149-16F48.png">
+                                <span class="chatlog__reaction-count">19</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="golfygiggle" title="golfygiggle" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/664156597253046362-DC51C.png">
+                                <span class="chatlog__reaction-count">12</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#128561;" title="&#128561;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f631-1083C.png">
+                                <span class="chatlog__reaction-count">15</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#128557;" title="&#128557;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f62d-FE9EC.png">
+                                <span class="chatlog__reaction-count">7</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="win" title="win" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/740670375150616738-B2F47.png">
+                                <span class="chatlog__reaction-count">11</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#128076;" title="&#128076;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f44c-B3B3D.png">
+                                <span class="chatlog__reaction-count">11</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#128108;" title="&#128108;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f46c-F45F5.png">
+                                <span class="chatlog__reaction-count">9</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#128553;" title="&#128553;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f629-B5B8C.png">
+                                <span class="chatlog__reaction-count">6</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#128079;" title="&#128079;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f44f-8DFC5.png">
+                                <span class="chatlog__reaction-count">14</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#128064;" title="&#128064;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f440-51DEA.png">
+                                <span class="chatlog__reaction-count">8</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#128293;" title="&#128293;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f525-3A6D7.png">
+                                <span class="chatlog__reaction-count">5</span>
+                            </div>
+                    </div>
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/e7504c23a095a8fb4b1233850599b700-6D2D6.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="NoodleyBrett#1889" data-user-id="484810136108662806" style="color: rgb(65,100,255)">NoodleyBrett</span>
+
+
+        <span class="chatlog__timestamp">20-Oct-20 10:30 AM</span>
+
+            <div class="chatlog__message " data-message-id="768164367963258922" id="message-768164367963258922">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Hey Ballers! <span class="mention">@everyone</span>
+
+Thanks for all your feedback regarding the upcoming update.
+
+When the update goes live on October 29th anyone who spent money will be qualified for the rewards depending on how much they&#39;ve spent.
+
+Tier 1 - Any Purchase - Big Spender Badge, Legendary Car, Legendary Key, Legendary Trail, Legendary Decal, 100 Gems
+Tier 2 - Total Purchases $9.99 and above - Sapphire Big Spender Badge, 500 Gems, all Tier 1 Rewards
+Tier 3 - Total Purchases $49.99 and above - Emerald Big Spender Badge, 1000 Gems, all Tier 2 Rewards
+Tier 4 - Total Purchases $249.99 and above - Ruby Big Spender Badge, Exclusive Emote, 2500 Gems, all Tier 3 Rewards
+
+These rewards will be retroactive only and not continue in the 2.0 update.
+
+The tiers above are listed in USD. If you have any questions about what tier you might fall into please feel free to DM me and I can help.</span>
+
+                        </div>
+                    </div>
+
+
+
+                    <div class="chatlog__reactions">
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#129297;" title="&#129297;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f911-BE5A1.png">
+                                <span class="chatlog__reaction-count">30</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="arrowup" title="arrowup" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/664494345965273149-16F48.png">
+                                <span class="chatlog__reaction-count">28</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#128077;" title="&#128077;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f44d-1485B.png">
+                                <span class="chatlog__reaction-count">16</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#128108;" title="&#128108;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f46c-F45F5.png">
+                                <span class="chatlog__reaction-count">10</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="superpalm" title="superpalm" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/664498177445199882-7225D.png">
+                                <span class="chatlog__reaction-count">10</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="MB" title="MB" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/730265020176269314-9AC9B.png">
+                                <span class="chatlog__reaction-count">11</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="win" title="win" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/740670375150616738-B2F47.png">
+                                <span class="chatlog__reaction-count">10</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#128293;" title="&#128293;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f525-3A6D7.png">
+                                <span class="chatlog__reaction-count">12</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#129395;" title="&#129395;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f973-8DAB3.png">
+                                <span class="chatlog__reaction-count">10</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#128184;" title="&#128184;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f4b8-4C23E.png">
+                                <span class="chatlog__reaction-count">15</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#129372;" title="&#129372;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f95c-A52FC.png">
+                                <span class="chatlog__reaction-count">8</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#129428;" title="&#129428;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f994-20C51.png">
+                                <span class="chatlog__reaction-count">11</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#128553;" title="&#128553;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f629-B5B8C.png">
+                                <span class="chatlog__reaction-count">6</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#129439;" title="&#129439;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f99f-5C0CC.png">
+                                <span class="chatlog__reaction-count">4</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#128028;" title="&#128028;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f41c-A3259.png">
+                                <span class="chatlog__reaction-count">5</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#128514;" title="&#128514;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f602-8A1BE.png">
+                                <span class="chatlog__reaction-count">5</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="MBnofun" title="MBnofun" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/732404082085593168-D5E12.png">
+                                <span class="chatlog__reaction-count">5</span>
+                            </div>
+                    </div>
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/63576f2dfe63fab9b8bf00e29ab2cd52-726B8.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="gingerbeefjunior#4429" data-user-id="339617852111716354" style="color: rgb(65,100,255)">gingerbeefjunior</span>
+
+
+        <span class="chatlog__timestamp">03-Feb-21 02:14 PM</span>
+
+            <div class="chatlog__message " data-message-id="806633665203011646" id="message-806633665203011646">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Hey there Ballers! <span class="mention">@everyone</span>
+
+It&#39;s time we had a little talk. The release of Motorball has been wild ride. It&#39;s been so exciting and encouraging to watch as you&#39;ve found something to love in the game and community. It&#39;s our mission to create things that bring people joy, and there&#39;s nothing more fulfilling than seeing that happen, whether it&#39;s on a large scale or a small one.
+
+Unfortunately, the sad reality is that the growth of Motorball has been on the small end of that scale. Real talk... we simply can&#39;t justify the costs to maintain the game and keep the lights on with the number players we currently have. We would have loved to continue to support this game and bring fresh content and features, but making games is hard and not everything can be a hit.
+
+So, as of Thursday, February 18th, at season reset, we will be shutting down the servers and retiring Motorball. Many thanks for playing, the fun each of you has had over the past few months made all our hard work worth it, even if it couldn&#39;t pay the bills.
+
+Stay tuned for more exciting things to come from Noodlecake. We have some very tasty looking game buns, baking in the oven...</span>
+
+                        </div>
+                    </div>
+
+
+
+                    <div class="chatlog__reactions">
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="_1motorsquishes" title="_1motorsquishes" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/780129763682418688-78D60.gif">
+                                <span class="chatlog__reaction-count">33</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="2_omg" title="2_omg" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/778512110685913099-CD273.png">
+                                <span class="chatlog__reaction-count">17</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="_bigmoney" title="_bigmoney" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/771443597563789362-EC404.gif">
+                                <span class="chatlog__reaction-count">11</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="2_rip" title="2_rip" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/778512111009267713-0AEB3.png">
+                                <span class="chatlog__reaction-count">35</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="7_cry" title="7_cry" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/777127417445613608-B79BC.png">
+                                <span class="chatlog__reaction-count">16</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="7_triggered" title="7_triggered" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/777117082785546260-0F766.png">
+                                <span class="chatlog__reaction-count">14</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#128557;" title="&#128557;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f62d-FE9EC.png">
+                                <span class="chatlog__reaction-count">50</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="4c_arrowdown" title="4c_arrowdown" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/664494402273542145-F0BFD.png">
+                                <span class="chatlog__reaction-count">19</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="4c_rrowup" title="4c_rrowup" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/664494345965273149-16F48.png">
+                                <span class="chatlog__reaction-count">6</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#128584;" title="&#128584;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f648-7566D.png">
+                                <span class="chatlog__reaction-count">5</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="2_bleep" title="2_bleep" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/778512110446706707-CA9F2.png">
+                                <span class="chatlog__reaction-count">10</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#128123;" title="&#128123;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f47b-12400.png">
+                                <span class="chatlog__reaction-count">8</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="6_ban" title="6_ban" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/768334667349753897-E4949.png">
+                                <span class="chatlog__reaction-count">5</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="☠️" title="☠️" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/2620-788D1.png">
+                                <span class="chatlog__reaction-count">5</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#128549;" title="&#128549;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f625-86A4E.png">
+                                <span class="chatlog__reaction-count">19</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="6_modbb" title="6_modbb" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/768334667975753759-CD113.png">
+                                <span class="chatlog__reaction-count">5</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="_lolbot" title="_lolbot" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/728380168233549864-FDEFE.gif">
+                                <span class="chatlog__reaction-count">6</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#128514;" title="&#128514;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f602-8A1BE.png">
+                                <span class="chatlog__reaction-count">7</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#128077;" title="&#128077;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f44d-1485B.png">
+                                <span class="chatlog__reaction-count">5</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#129324;" title="&#129324;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f92c-5B090.png">
+                                <span class="chatlog__reaction-count">6</span>
+                            </div>
+                    </div>
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/26500b363d85d5a86acd481453787593-370D3.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Kay-Lynne#5398" data-user-id="566005547887755274" style="color: rgb(65,100,255)">Kay-Lynne</span>
+
+
+        <span class="chatlog__timestamp">17-Feb-21 01:46 PM</span>
+
+            <div class="chatlog__message " data-message-id="811700155614101545" id="message-811700155614101545">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Hey folks! Just so <span class="mention">@everyone</span> is aware, once Motorball is shut down, we will be retiring this Discord server as well. If you wish to stay in touch with the people you met here, I would suggest creating your own server(s) and/or finding another way to interact with one another. If you like Golf Blitz, you&#39;re always welcome in that server as well! We will give you folks a week to get situated in your different communities before we shut down this server. We just can&#39;t be moderating this server any longer. Thanks everyone who made this community a fun place to be, and we hope you enjoy the last few moments of Motorball. Thanks for sticking with us, everyone! ❤️</span>
+
+                                <span class="chatlog__edited-timestamp" title="17-Feb-21 01:51 PM">(edited)</span>
+                        </div>
+                    </div>
+
+
+
+                    <div class="chatlog__reactions">
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#128683;" title="&#128683;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f6ab-CEB2E.png">
+                                <span class="chatlog__reaction-count">9</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#128078;" title="&#128078;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f44e-1A8D9.png">
+                                <span class="chatlog__reaction-count">9</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="4b_thumbsdown" title="4b_thumbsdown" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/777117082881884181-7E2E7.png">
+                                <span class="chatlog__reaction-count">8</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="7_cry" title="7_cry" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/777127417445613608-B79BC.png">
+                                <span class="chatlog__reaction-count">7</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="7_triggered" title="7_triggered" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/777117082785546260-0F766.png">
+                                <span class="chatlog__reaction-count">6</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#128077;" title="&#128077;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f44d-1485B.png">
+                                <span class="chatlog__reaction-count">2</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="5_laughygolf" title="5_laughygolf" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/664156597253046362-DC51C.png">
+                                <span class="chatlog__reaction-count">3</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#128148;" title="&#128148;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f494-DB2C3.png">
+                                <span class="chatlog__reaction-count">10</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="4c_arrowdown" title="4c_arrowdown" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/664494402273542145-F0BFD.png">
+                                <span class="chatlog__reaction-count">7</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="4a_loss" title="4a_loss" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/740670395446984754-20FF2.png">
+                                <span class="chatlog__reaction-count">6</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#129324;" title="&#129324;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f92c-5B090.png">
+                                <span class="chatlog__reaction-count">4</span>
+                            </div>
+                    </div>
+            </div>
+    </div>
+</div>
+
+
+<div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/26500b363d85d5a86acd481453787593-370D3.png" alt="Avatar">
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Kay-Lynne#5398" data-user-id="566005547887755274" style="color: rgb(65,100,255)">Kay-Lynne</span>
+
+
+        <span class="chatlog__timestamp">18-Feb-21 10:53 AM</span>
+
+            <div class="chatlog__message " data-message-id="812019036061433906" id="message-812019036061433906">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace"><span class="mention">@everyone</span> Well, the time has come. Motorball has been laid to rest. Thank you so much to everyone who stuck with us. Even if the game wasn&#39;t a huge success, we do appreciate everyone who did play it and made the game and the community a fun place to be. 
+
+We are going to leave this server up for a week, and then it will be shut down. So that would be February 25th that this server will go down. I see that some folks have created a new server for people to go hang out in, and I welcome you to join it if you feel like maintaining the connections you&#39;ve made here. Just know that it will not be associated with Noodlecake and we will not be monitoring it, however.
+
+We&#39;ll be finding a way to hand over the Motorball Discord emotes to the new server as well. 
+
+Here&#39;s the link if you&#39;d like to join the new community-made server: <a href="https://discord.gg/5JkT2PmXmp">https://discord.gg/5JkT2PmXmp</a>
+
+Thank you once again everyone! We&#39;ll see you in our next adventures! <img class="emoji " alt="🙂" title="🙂" src="https://twemoji.maxcdn.com/2/72x72/1f642.png"></span>
+
+                                <span class="chatlog__edited-timestamp" title="18-Feb-21 10:57 AM">(edited)</span>
+                        </div>
+                    </div>
+
+
+
+                    <div class="chatlog__reactions">
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="✅" title="✅" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/2705-6C755.png">
+                                <span class="chatlog__reaction-count">8</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="2_rip" title="2_rip" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/778512111009267713-0AEB3.png">
+                                <span class="chatlog__reaction-count">10</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="❤️" title="❤️" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/2764-18179.png">
+                                <span class="chatlog__reaction-count">6</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="_1motorsquishes" title="_1motorsquishes" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/780129763682418688-78D60.gif">
+                                <span class="chatlog__reaction-count">5</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="9_mb" title="9_mb" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/730265020176269314-9AC9B.png">
+                                <span class="chatlog__reaction-count">6</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="_bigmoney" title="_bigmoney" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/771443597563789362-EC404.gif">
+                                <span class="chatlog__reaction-count">5</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#128148;" title="&#128148;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f494-DB2C3.png">
+                                <span class="chatlog__reaction-count">4</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="7_cry" title="7_cry" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/777127417445613608-B79BC.png">
+                                <span class="chatlog__reaction-count">4</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="2_einflitzer" title="2_einflitzer" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/779549470379212801-331F7.png">
+                                <span class="chatlog__reaction-count">2</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#127825;" title="&#127825;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f351-28BDC.png">
+                                <span class="chatlog__reaction-count">2</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="&#128563;" title="&#128563;" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/1f633-F7868.png">
+                                <span class="chatlog__reaction-count">2</span>
+                            </div>
+                            <div class="chatlog__reaction">
+                                <img class="emoji emoji--small" alt="3_vroom" title="3_vroom" src="Motorball%20-%20ANNOUNCEMENTS%20-%20announcements%20%5B520366439329169408%5D.html_Files/740650376633516234-08564.png">
+                                <span class="chatlog__reaction-count">2</span>
+                            </div>
+                    </div>
+            </div>
+    </div>
+</div>
+
+</div>
+
+<div class="postamble">
+    <div class="postamble__entry">Exported 24 message(s)</div>
+</div>
+
+</body>
+
+</html>
